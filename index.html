@@ -384,76 +384,78 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
                                                                 from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getFirestore, doc, setDoc, getDoc }                   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-// expose firestore helpers to main script
 window.firestoreFns = { doc, setDoc, getDoc };
 
+function setStatus(msg, color='var(--hint)'){
+  const el = document.getElementById('fb-status');
+  if(el){ el.textContent = msg; el.style.color = color; }
+}
+
 try {
+  setStatus('🔄 conectando...', 'var(--amber)');
   const app  = initializeApp(window.FB_CONFIG);
   const auth = getAuth(app);
   const db   = getFirestore(app);
 
   window.fbAuth = auth;
   window.fbDb   = db;
-
-  // sign-in helper
   window.fbSignIn  = () => signInWithPopup(auth, new GoogleAuthProvider());
   window.fbSignOut = () => signOut(auth);
 
-  // watch auth state
   onAuthStateChanged(auth, async user => {
     if (user) {
       window.fbUser      = user;
       window.useFirebase = true;
+      setStatus('☁️ ' + (user.displayName?.split(' ')[0] || 'conectado'), 'var(--green)');
+
+      // update avatar/name in header
+      const av = document.getElementById('user-avatar');
+      const nm = document.getElementById('user-name');
+      if(av && user.photoURL){ av.src=user.photoURL; av.style.display='block'; }
+      if(nm) nm.textContent = user.displayName?.split(' ')[0] || 'Usuário';
+      const sair = document.getElementById('btn-sair');
+      if(sair) sair.style.display = 'inline-flex';
+
+      // hide login screen if showing
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('main-app').style.display     = 'block';
 
       // load data from Firestore
       try {
         const snap = await getDoc(doc(db, 'users', user.uid, 'data', 'main'));
         if (snap.exists()) {
           const d = snap.data();
-          if (d.casas)        window.casas        = d.casas;
-          if (d.apostas)      window.apostas      = d.apostas;
-          if (d.banca)        window.banca        = d.banca;
-          if (d.movs)         window.movs         = d.movs;
-          if (d.fontesCustom) window.fontesCustom = d.fontesCustom;
-          if (d.banco)        window.banco        = d.banco;
-          // resync id counters
-          if (window.casas.length)   window.nextCasaId   = Math.max(...window.casas.map(c=>c.id))+1;
-          if (window.apostas.length) window.nextApostaId = Math.max(...window.apostas.map(a=>a.id))+1;
-          if (window.movs.length)    window.nextMovId    = Math.max(...window.movs.map(m=>m.id))+1;
-          if (window.banco?.movs?.length) window.nextBancoMovId = Math.max(...window.banco.movs.map(m=>m.id))+1;
+          if(d.casas)        window.casas        = d.casas;
+          if(d.apostas)      window.apostas      = d.apostas;
+          if(d.banca)        window.banca        = d.banca;
+          if(d.movs)         window.movs         = d.movs;
+          if(d.fontesCustom) window.fontesCustom = d.fontesCustom;
+          if(d.banco)        window.banco        = d.banco;
+          if(window.casas.length)        window.nextCasaId     = Math.max(...window.casas.map(c=>c.id))+1;
+          if(window.apostas.length)      window.nextApostaId   = Math.max(...window.apostas.map(a=>a.id))+1;
+          if(window.movs.length)         window.nextMovId      = Math.max(...window.movs.map(m=>m.id))+1;
+          if(window.banco?.movs?.length) window.nextBancoMovId = Math.max(...window.banco.movs.map(m=>m.id))+1;
+          if(window.appReady) window.appReady();
         }
-      } catch(e) { console.warn('Firestore load error:', e); }
-
-      _showApp(user);
+      } catch(e) {
+        console.warn('Firestore load error:', e);
+        setStatus('⚠️ erro ao carregar dados', 'var(--red)');
+      }
 
     } else {
+      // not logged in — show login screen
       window.fbUser      = null;
       window.useFirebase = false;
-      _showLogin();
+      setStatus('', '');
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('main-app').style.display     = 'none';
     }
   });
 
 } catch(e) {
-  console.error('Firebase init error:', e);
+  console.warn('Firebase init error:', e);
   window.useFirebase = false;
-  _showApp(null);
-}
-
-function _showLogin() {
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('main-app').style.display     = 'none';
-}
-
-function _showApp(user) {
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('main-app').style.display     = 'block';
-  if (user) {
-    const av = document.getElementById('user-avatar');
-    const nm = document.getElementById('user-name');
-    if (av) { av.src = user.photoURL || ''; av.style.display = user.photoURL ? 'block' : 'none'; }
-    if (nm) nm.textContent = user.displayName?.split(' ')[0] || 'Usuário';
-  }
-  if (window.appReady) window.appReady();
+  setStatus('📴 offline', 'var(--hint)');
 }
 </script>
 </head>
@@ -476,7 +478,7 @@ function _showApp(user) {
   <div style="font-size:11px;color:var(--hint);text-align:center;max-width:280px">Seus dados ficam salvos na sua conta Google,<br>acessíveis em qualquer dispositivo.</div>
 </div>
 
-<div id="main-app" style="display:none">
+<div id="main-app" style="display:block">
 <div class="app">
   <header class="header">
     <div class="logo">apostas<span>.</span>track</div>
@@ -489,9 +491,10 @@ function _showApp(user) {
       <button class="btn btn-solid" onclick="openModal('aposta')">+ Aposta</button>
       <!-- user info -->
       <div style="display:flex;align-items:center;gap:8px;padding-left:8px;border-left:1px solid var(--border2)" id="user-info-wrap">
+        <span id="fb-status" style="font-size:11px;color:var(--hint)"></span>
         <img id="user-avatar" src="" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover;display:none">
         <span id="user-name" style="font-size:12px;color:var(--muted)"></span>
-        <button class="btn btn-ghost btn-sm" onclick="window.fbSignOut && window.fbSignOut()" title="Sair" style="font-size:11px;padding:4px 8px">Sair</button>
+        <button class="btn btn-ghost btn-sm" onclick="window.fbSignOut && window.fbSignOut()" id="btn-sair" title="Sair" style="font-size:11px;padding:4px 8px;display:none">Sair</button>
       </div>
     </div>
   </header>
@@ -3005,15 +3008,15 @@ window.movs         = movs;
 window.fontesCustom = fontesCustom;
 window.banco        = banco;
 
-// appReady is called by the module script after auth resolves
+// appReady: called by Firebase module after loading cloud data
+// also called immediately below so app always starts
 window.appReady = function(){
-  // sync back from window in case Firebase updated them
-  casas        = window.casas;
-  apostas      = window.apostas;
-  banca        = window.banca;
-  movs         = window.movs;
-  fontesCustom = window.fontesCustom;
-  banco        = window.banco || banco;
+  casas        = window.casas        || casas;
+  apostas      = window.apostas      || apostas;
+  banca        = window.banca        || banca;
+  movs         = window.movs         || movs;
+  fontesCustom = window.fontesCustom || fontesCustom;
+  banco        = window.banco        || banco;
   // migration
   apostas.forEach(a=>{
     if(a.pctBanca !== undefined && a.qtdUnidades === undefined){ a.qtdUnidades=a.pctBanca; delete a.pctBanca; }
@@ -3022,10 +3025,8 @@ window.appReady = function(){
   render();
 };
 
-// if Firebase not available (offline), run immediately
-if(!window.fbAuth) window.appReady();
-
-render();
+// always run immediately — Firebase will call appReady again after syncing cloud data
+window.appReady();
 </script>
 </div><!-- /main-app -->
 <!-- MOBILE BOTTOM NAV -->
