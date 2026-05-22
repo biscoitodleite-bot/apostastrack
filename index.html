@@ -483,6 +483,7 @@ function _showApp(user) {
     <div class="header-actions">
       <button class="btn btn-ghost btn-sm" onclick="exportCSV()">exportar CSV</button>
       <button class="btn btn-ghost btn-sm" onclick="openModal('importcsv')">importar CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="openModal('cleardata')" style="color:var(--red);border-color:var(--red-border)">🗑 limpar dados</button>
       <button class="btn btn-ghost" onclick="openModal('casa')">+ Casa</button>
       <button class="btn btn-ghost" onclick="openModal('scanimage')" title="Escanear print com IA" style="gap:5px">🤖 Scan</button>
       <button class="btn btn-solid" onclick="openModal('aposta')">+ Aposta</button>
@@ -2313,6 +2314,59 @@ function openModal(type, id){
       document.getElementById('statusPreviewBox').innerHTML=statusPreviewHTML(fake,v);
     });
 
+  } else if(type==='cleardata'){
+    mc.innerHTML=`
+      <div style="text-align:center;padding:8px 0 4px">
+        <div style="font-size:40px;margin-bottom:12px">⚠️</div>
+        <h2 style="color:var(--red);margin-bottom:8px">Limpar todos os dados</h2>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6">
+          Esta ação irá apagar <b style="color:var(--text)">permanentemente</b> todas as suas apostas,
+          casas, movimentos, banco e configurações de banca.<br><br>
+          <span style="background:var(--red-dim);border:1px solid var(--red-border);border-radius:var(--radius);padding:8px 12px;display:inline-block;font-size:12px;color:var(--red)">
+            ⛔ Esta ação é <b>irreversível</b> e não pode ser desfeita.
+          </span>
+        </p>
+      </div>
+      <div id="clear-step-1">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px;text-align:center">O que deseja apagar?</p>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;font-size:13px">
+            <input type="checkbox" id="clr-apostas" checked style="width:16px;height:16px;accent-color:var(--red)"> Todas as apostas (${apostas.length})
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;font-size:13px">
+            <input type="checkbox" id="clr-casas" checked style="width:16px;height:16px;accent-color:var(--red)"> Casas de aposta (${casas.length}) e movimentos
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;font-size:13px">
+            <input type="checkbox" id="clr-banco" checked style="width:16px;height:16px;accent-color:var(--red)"> Banco (R$ ${banco.saldo?.toFixed(2)||'0.00'})
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;font-size:13px">
+            <input type="checkbox" id="clr-banca" style="width:16px;height:16px;accent-color:var(--red)"> Configurações de banca
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;font-size:13px">
+            <input type="checkbox" id="clr-fontes" style="width:16px;height:16px;accent-color:var(--red)"> Fontes personalizadas
+          </label>
+        </div>
+        <div class="modal-btns">
+          <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+          <button class="btn btn-red" onclick="clearStep2()">Continuar →</button>
+        </div>
+      </div>
+      <div id="clear-step-2" style="display:none">
+        <div style="background:var(--red-dim);border:1px solid var(--red-border);border-radius:var(--radius-lg);padding:14px;margin-bottom:16px">
+          <div style="font-size:12px;font-weight:500;color:var(--red);margin-bottom:6px">⚠️ Confirmação final</div>
+          <div style="font-size:12px;color:var(--muted)">Digite <b style="color:var(--text)">APAGAR</b> para confirmar que entende que esta ação é irreversível.</div>
+        </div>
+        <div class="form-row">
+          <input type="text" id="clear-confirm-input" placeholder="Digite APAGAR aqui..." autocomplete="off"
+            oninput="document.getElementById('btn-clear-final').disabled=this.value!=='APAGAR';document.getElementById('btn-clear-final').style.opacity=this.value==='APAGAR'?'1':'0.4'"
+            style="background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:10px 14px;border-radius:var(--radius);font-size:14px;font-family:'DM Mono',monospace;outline:none;width:100%;letter-spacing:.1em">
+        </div>
+        <div class="modal-btns">
+          <button class="btn btn-ghost" onclick="clearBack()">← Voltar</button>
+          <button class="btn btn-red" id="btn-clear-final" disabled style="opacity:.4" onclick="executeClear()">Apagar permanentemente</button>
+        </div>
+      </div>`;
+
   } else if(type==='importcsv'){
     mc.innerHTML=`<h2>Importar apostas via CSV</h2>
       <div style="background:var(--surface2);border-radius:var(--radius);padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--hint);line-height:1.7">
@@ -2827,6 +2881,66 @@ function processImportCSV(){
     toast(`${imported} aposta${imported!==1?'s':''} importada${imported!==1?'s':''}${skipped>0?` (${skipped} ignorada${skipped!==1?'s':''})`:''}`);
   };
   reader.readAsText(file);
+}
+
+function clearStep2(){
+  const anyChecked = ['clr-apostas','clr-casas','clr-banco','clr-banca','clr-fontes']
+    .some(id=>document.getElementById(id)?.checked);
+  if(!anyChecked){ toast('Selecione ao menos uma opção.'); return; }
+  document.getElementById('clear-step-1').style.display='none';
+  document.getElementById('clear-step-2').style.display='block';
+  setTimeout(()=>document.getElementById('clear-confirm-input')?.focus(), 100);
+}
+
+function clearBack(){
+  document.getElementById('clear-step-2').style.display='none';
+  document.getElementById('clear-step-1').style.display='block';
+  const inp=document.getElementById('clear-confirm-input');
+  if(inp) inp.value='';
+}
+
+function executeClear(){
+  if(document.getElementById('clear-confirm-input')?.value !== 'APAGAR') return;
+
+  const clrApostas = document.getElementById('clr-apostas')?.checked;
+  const clrCasas   = document.getElementById('clr-casas')?.checked;
+  const clrBanco   = document.getElementById('clr-banco')?.checked;
+  const clrBanca   = document.getElementById('clr-banca')?.checked;
+  const clrFontes  = document.getElementById('clr-fontes')?.checked;
+
+  if(clrApostas){ apostas=[]; nextApostaId=1; }
+  if(clrCasas)  { casas=[]; movs=[]; nextCasaId=1; nextMovId=1; }
+  if(clrBanco)  { banco={saldo:0,movs:[]}; nextBancoMovId=1; }
+  if(clrBanca)  { banca={total:1000,unidades:100,unidadeValor:10,estrategia:'fixo',pct:2,winrate:55,oddMedia:1.8}; }
+  if(clrFontes) { fontesCustom=[...FONTES_DEFAULT]; }
+
+  // clear localStorage keys
+  if(clrApostas) localStorage.removeItem(SK_APOSTAS);
+  if(clrCasas)   { localStorage.removeItem(SK_CASAS); localStorage.removeItem(SK_MOVS); }
+  if(clrBanco)   localStorage.removeItem(SK_BANCO);
+  if(clrBanca)   localStorage.removeItem(SK_BANCA);
+  if(clrFontes)  localStorage.removeItem(SK_FONTES);
+
+  // clear from Firebase too
+  if(useFirebase && fbDb && fbUser){
+    const { doc, setDoc } = window.firestoreFns;
+    setDoc(doc(fbDb,'users',fbUser.uid,'data','main'), {
+      casas, apostas, banca, movs, fontesCustom, banco,
+      updatedAt: new Date().toISOString()
+    }).catch(e=>console.warn('Firebase clear error:',e));
+  }
+
+  save();
+  closeModal();
+  render();
+
+  const items=[];
+  if(clrApostas) items.push('apostas');
+  if(clrCasas)   items.push('casas');
+  if(clrBanco)   items.push('banco');
+  if(clrBanca)   items.push('banca');
+  if(clrFontes)  items.push('fontes');
+  toast(`✓ Dados apagados: ${items.join(', ')}`);
 }
 
 function exportCSV(){
