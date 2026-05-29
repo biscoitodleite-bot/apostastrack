@@ -87,25 +87,44 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--text);min-h
 .period-btn{padding:6px 14px;font-size:12px;font-weight:500;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--hint);cursor:pointer;font-family:'Rubik',sans-serif;transition:all .15s}
 .period-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 .period-btn:hover:not(.active){color:var(--text);border-color:var(--border3)}
-.hist-month{margin-bottom:16px}
-.hist-month-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);cursor:pointer;margin-bottom:6px;user-select:none}
-.hist-month-hdr:hover{border-color:var(--border2)}
-.hist-month-title{font-size:15px;font-weight:500;display:flex;align-items:center;gap:8px}
-.hist-month-lucro{font-family:'Rubik',Arial,monospace;font-size:15px;font-weight:600}
-.hist-day-hdr{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;margin-bottom:4px;border-left:2px solid var(--border2)}
-.hist-day-label{font-size:13px;color:var(--muted);font-weight:500}
-.hist-day-lucro{font-family:'Rubik',Arial,monospace;font-size:13px}
-.hist-aposta-row{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:5px;transition:border-color .15s;cursor:default}
-.hist-aposta-row:hover{border-color:var(--border2)}
-.hist-esporte-icon{width:40px;height:40px;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.hist-info{flex:1;min-width:0}
-.hist-evento{font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hist-meta{font-size:12px;color:var(--hint);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap}
-.hist-right{display:flex;align-items:center;gap:16px;flex-shrink:0}
-.hist-stat{text-align:right}
-.hist-stat .lbl{font-size:11px;color:var(--hint);text-transform:uppercase;letter-spacing:.04em}
-.hist-stat .val{font-size:15px;font-weight:600;font-family:'Rubik',Arial,monospace}
-.hist-status-bar{width:5px;height:100%;min-height:40px;border-radius:0 4px 4px 0;margin:-13px -16px -13px 0;flex-shrink:0;align-self:stretch}
+.hist-month{margin-bottom:24px}
+/* ── Day section: full-width dark header ── */
+.hist-day-section{margin-bottom:6px}
+.hist-day-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:4px;cursor:pointer;user-select:none;transition:border-color .15s}
+.hist-day-hdr:hover{border-color:var(--border2)}
+.hist-day-label{font-size:13px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.hist-day-lucro{font-family:'Rubik',Arial,monospace;font-size:13px;font-weight:600}
+.hist-day-arrow{font-size:10px;color:var(--hint);transition:transform .15s;display:inline-block}
+.hist-day-arrow.open{transform:rotate(90deg)}
+/* Month collapsible header */
+.hist-month-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 4px;margin-bottom:8px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border)}
+.hist-month-hdr:hover .hist-month-title{color:var(--text)}
+.hist-month-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--hint);display:flex;align-items:center;gap:6px;transition:color .15s}
+.hist-month-lucro{font-family:'Rubik',Arial,monospace;font-size:12px;font-weight:600;color:var(--hint)}
+.hist-month-arrow{font-size:9px;color:var(--hint);transition:transform .15s;display:inline-block}
+.hist-month-arrow.open{transform:rotate(90deg)}
+/* ── Aposta row ── */
+.hist-aposta-row{display:flex;align-items:stretch;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:4px;transition:border-color .15s,background .15s;cursor:pointer;overflow:hidden;position:relative}
+.hist-aposta-row:hover{border-color:var(--border2);background:var(--surface2)}
+.hist-row-drag{width:24px;display:flex;align-items:center;justify-content:center;color:var(--hint);font-size:11px;flex-shrink:0;cursor:default}
+.hist-row-main{flex:1;display:flex;align-items:center;gap:0;min-width:0}
+/* Hora + casa badge */
+.hist-row-left{display:flex;flex-direction:column;justify-content:center;gap:4px;padding:12px 10px 12px 14px;min-width:0;flex:1}
+.hist-hora-casa{display:flex;align-items:center;gap:8px}
+.hist-hora{font-size:11px;font-weight:600;color:var(--muted);font-family:'Rubik',Arial,monospace;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:2px 7px}
+.hist-casa-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.hist-esporte-icon{width:22px;height:22px;font-size:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.hist-evento{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;color:var(--text)}
+.hist-meta{font-size:11px;color:var(--hint);margin-top:1px;display:flex;gap:6px;flex-wrap:wrap}
+/* Stats on right */
+.hist-row-stats{display:flex;align-items:center;gap:0;flex-shrink:0}
+.hist-stat{text-align:right;padding:12px 14px;border-left:1px solid var(--border);min-width:80px}
+.hist-stat .lbl{font-size:9px;color:var(--hint);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.hist-stat .val{font-size:14px;font-weight:600;font-family:'Rubik',Arial,monospace}
+/* Vertical status bar */
+.hist-status-bar{width:5px;flex-shrink:0;align-self:stretch}
+/* Status vertical text */
+.hist-status-tag{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:10px 4px;color:rgba(255,255,255,.35);flex-shrink:0;display:flex;align-items:center;justify-content:center;min-width:20px}
 
 @media(max-width:640px){
   .dash-stats{grid-template-columns:repeat(2,1fr)}
@@ -269,7 +288,10 @@ tbody tr:hover td{background:var(--surface)}
   .cal-ms-card .val{font-size:16px}
   .chart-cal-pop{right:-60px;width:240px}
   /* Historico */
-  .hist-aposta-row{flex-wrap:wrap;gap:8px;padding:10px 12px}
+  .hist-aposta-row{flex-wrap:nowrap}
+  .hist-row-stats{flex-wrap:wrap}
+  .hist-stat{min-width:60px;padding:8px 10px}
+  .hist-status-tag{display:none}
   .hist-esporte-icon{width:30px;height:30px;font-size:14px}
   .hist-evento{font-size:12px}
   .hist-meta{font-size:10px}
@@ -385,6 +407,224 @@ tbody tr:hover td{background:var(--surface)}
 .chart-cal-pop .cp-day.pos-dot::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--green)}
 .chart-cal-pop .cp-day.neg-dot::after{background:var(--red)}
 .chart-cal-pop .cp-clear{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:center}
+
+
+/* ── MODAL APOSTA (two-col layout) ── */
+.modal-side{background:var(--surface);border-left:1px solid var(--border2);width:480px;max-width:100vw;height:100%;overflow-y:auto;display:flex;flex-direction:column}
+.modal-side-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;background:var(--surface);z-index:5}
+.modal-side-header h2{font-size:15px;font-weight:600;margin:0}
+.modal-side-close{width:30px;height:30px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .15s;font-family:'Rubik',sans-serif}
+.modal-side-close:hover{background:var(--surface3);color:var(--text)}
+.modal-side-body{padding:18px 22px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+.modal-side-footer{padding:14px 22px;border-top:1px solid var(--border);flex-shrink:0;background:var(--surface)}
+
+/* Form atoms */
+.ap-row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ap-field{display:flex;flex-direction:column;gap:5px}
+.ap-lbl{font-size:11px;color:var(--hint);font-weight:500;letter-spacing:.03em}
+.ap-hint{font-size:10px;color:var(--hint)}
+.ap-input{background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:10px 12px;border-radius:var(--radius);font-size:13px;font-family:'Rubik',sans-serif;outline:none;transition:border-color .15s;width:100%}
+.ap-input:focus{border-color:var(--border3)}
+.ap-input::placeholder{color:var(--hint)}
+.ap-divider{height:1px;background:var(--border);margin:2px 0}
+
+/* Stake tabs */
+.ap-stake-tabs{display:flex;gap:0;border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden;margin-bottom:10px}
+.ap-stake-btn{flex:1;padding:9px 6px;font-size:12px;font-weight:500;background:transparent;border:none;color:var(--muted);cursor:pointer;font-family:'Rubik',sans-serif;transition:all .15s;border-right:1px solid var(--border2)}
+.ap-stake-btn:last-child{border-right:none}
+.ap-stake-btn.active{background:var(--surface3);color:var(--text)}
+.ap-stake-btn:hover:not(.active){background:var(--surface2);color:var(--text)}
+.ap-stake-select{width:100%}
+
+/* Preview box */
+.ap-preview{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ap-preview-left,.ap-preview-right{display:flex;flex-direction:column}
+.ap-preview-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--hint);margin-bottom:3px}
+.ap-preview-val{font-size:18px;font-weight:600;font-family:'Rubik',monospace;color:var(--text)}
+.ap-preview-pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--muted)}
+.ap-preview-pill::before{content:'—';color:var(--hint);font-size:16px}
+.ap-preview-pill.has-val::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0}
+.ap-preview-pill.has-val{color:var(--text)}
+
+@media(max-width:640px){
+  .ap-row2{grid-template-columns:1fr}
+  .modal-side{width:100%;border-left:none;border-top:1px solid var(--border2);border-radius:var(--radius-xl) var(--radius-xl) 0 0}
+}
+
+/* ── BANKROLL SELECTOR SCREEN ── */
+#bankroll-screen{display:none;position:fixed;inset:0;background:var(--bg);z-index:500;flex-direction:column;align-items:center;padding:0}
+#bankroll-screen.open{display:flex}
+.bankroll-header{width:100%;padding:20px 28px 0;display:flex;align-items:center;justify-content:space-between}
+.bankroll-logo{font-family:'Rubik',monospace;font-size:15px;font-weight:500}
+.bankroll-logo span{color:var(--green)}
+.bankroll-body{flex:1;width:100%;max-width:880px;padding:48px 28px 28px;overflow-y:auto}
+.bankroll-title{font-size:26px;font-weight:600;margin-bottom:6px}
+.bankroll-sub{font-size:13px;color:var(--hint);margin-bottom:36px}
+.bankrolls-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:20px}
+.bankroll-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-xl);padding:22px 20px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.bankroll-card:hover{border-color:rgba(34,197,94,0.4);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.bankroll-card .bk-name{font-size:16px;font-weight:600;margin-bottom:4px}
+.bankroll-card .bk-stats{display:flex;gap:16px;margin-top:14px}
+.bankroll-card .bk-stat{display:flex;flex-direction:column;gap:2px}
+.bankroll-card .bk-stat-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--hint)}
+.bankroll-card .bk-stat-val{font-size:17px;font-weight:600;font-family:'Rubik',monospace}
+.bankroll-card .bk-pending{font-size:11px;color:var(--amber);margin-top:10px;display:flex;align-items:center;gap:5px}
+.bankroll-card .bk-accent{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),rgba(34,197,94,0));border-radius:var(--radius-xl) var(--radius-xl) 0 0}
+.bankroll-add-card{background:transparent;border:1px dashed var(--border2);border-radius:var(--radius-xl);padding:22px 20px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:130px;color:var(--hint)}
+.bankroll-add-card:hover{border-color:var(--border3);color:var(--text);background:var(--surface)}
+.bankroll-add-card .plus{width:40px;height:40px;border-radius:50%;border:1px dashed var(--border2);display:flex;align-items:center;justify-content:center;font-size:20px;transition:all .2s}
+.bankroll-add-card:hover .plus{border-color:var(--green);color:var(--green)}
+.bankroll-add-card span{font-size:13px}
+
+/* ── BANCA NAME HEADER ── */
+.banca-name-bar{padding:8px 28px 0;max-width:1180px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.banca-name-bar .banca-nm{font-size:18px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.banca-name-bar .banca-nm span{font-size:11px;font-weight:400;color:var(--hint);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:2px 10px}
+.btn-switch-bankroll{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--radius);font-size:12px;font-weight:500;cursor:pointer;background:var(--surface2);border:1px solid var(--border2);color:var(--muted);font-family:'Rubik',sans-serif;transition:all .15s}
+.btn-switch-bankroll:hover{border-color:var(--border3);color:var(--text)}
+
+/* ── IMPROVED STATS CARDS (BetAnalytix style) ── */
+.dash-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:20px}
+.dash-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 18px;position:relative;overflow:hidden}
+.dash-card .lbl{font-size:11px;color:var(--hint);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.dash-card .val{font-size:26px;font-weight:600;font-family:'Rubik',monospace}
+.dash-card .sub-val{font-size:11px;color:var(--hint);margin-top:4px}
+.dash-card .val.pos{color:var(--green)}
+.dash-card .val.neg{color:var(--red)}
+.dash-card .val.amber{color:var(--amber)}
+.dash-card .accent-bar{position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:2px 0 0 2px}
+
+/* ── IMPROVED MODAL (BetAnalytix style) ── */
+.modal-side{background:var(--surface);border-left:1px solid var(--border2);border-radius:0;width:820px;max-width:100vw;max-height:100vh;height:100%;overflow:hidden;padding:0;position:fixed;right:0;top:0;bottom:0;box-shadow:-12px 0 40px rgba(0,0,0,.5);display:flex;flex-direction:column}
+.modal-side-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:relative;background:var(--surface);z-index:5;flex-shrink:0}
+.modal-side-header h2{font-size:16px;font-weight:600;margin:0}
+.modal-side-close{width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .15s;font-family:'Rubik',sans-serif}
+.modal-side-close:hover{background:var(--surface3);color:var(--text)}
+.modal-side-body{padding:20px 24px;flex:1;overflow-y:auto}
+.modal-side-footer{padding:16px 24px;border-top:1px solid var(--border);background:var(--surface);flex-shrink:0}
+/* Aposta format pills */
+.format-pills{display:flex;gap:8px;margin-bottom:20px}
+.format-pill{flex:1;padding:10px 4px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface2);color:var(--muted);cursor:pointer;font-size:12px;font-weight:500;text-align:center;transition:all .15s;font-family:'Rubik',sans-serif}
+.format-pill.active{border-color:rgba(139,92,246,.5);background:rgba(139,92,246,.12);color:#a78bfa}
+.format-pill:hover:not(.active){border-color:var(--border3);color:var(--text)}
+/* Value input with unit label */
+.val-input-wrap{position:relative}
+.val-input-wrap input{width:100%;padding-right:48px}
+.val-input-wrap .val-unit{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--hint);pointer-events:none}
+/* Bet preview strip */
+.bet-preview-strip{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:14px 16px;margin:16px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bet-preview-strip .bps-item{display:flex;flex-direction:column;gap:2px}
+.bet-preview-strip .bps-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--hint)}
+.bet-preview-strip .bps-val{font-size:15px;font-weight:600;font-family:'Rubik',monospace}
+/* Side modal overlay backdrop */
+.modal-overlay.side-mode{align-items:stretch;justify-content:flex-end}
+.modal-overlay.side-mode .modal{width:820px;max-width:100vw;height:100%;max-height:100vh;border-radius:0;border-left:1px solid var(--border2);padding:0}
+
+/* ── MOVIMENTAÇÕES FINANCEIRAS ── */
+.mov-list{display:flex;flex-direction:column;gap:4px}
+.mov-row{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);transition:border-color .15s}
+.mov-row:hover{border-color:var(--border2)}
+.mov-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.mov-icon.dep{background:var(--green-dim);border:1px solid var(--green-border)}
+.mov-icon.saq{background:var(--red-dim);border:1px solid var(--red-border)}
+.mov-icon.bet{background:var(--amber-dim);border:1px solid var(--amber-border)}
+.mov-icon.win{background:var(--green-dim);border:1px solid var(--green-border)}
+.mov-icon.refund{background:var(--blue-dim);border:1px solid var(--blue-border)}
+.mov-icon.transfer{background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.28)}
+.mov-icon.adj{background:var(--surface2);border:1px solid var(--border2)}
+.mov-desc{flex:1;min-width:0}
+.mov-desc .title{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mov-desc .sub{font-size:11px;color:var(--hint);margin-top:2px}
+.mov-amount{font-family:'Rubik',Arial,monospace;font-size:15px;font-weight:600;text-align:right;flex-shrink:0}
+.mov-amount.pos{color:var(--green)}
+.mov-amount.neg{color:var(--red)}
+.mov-amount.neu{color:var(--muted)}
+/* Pending badge */
+.pending-alert{background:var(--red-dim);border:1px solid var(--red-border);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.pending-alert .icon{font-size:20px;flex-shrink:0}
+.pending-alert .body{flex:1}
+.pending-alert .title{font-size:13px;font-weight:600;color:var(--red);margin-bottom:2px}
+.pending-alert .items{font-size:12px;color:var(--muted);line-height:1.6}
+/* Quick action buttons in fin tab */
+.fin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.fin-section{margin-bottom:24px}
+.fin-section-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--hint);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+/* Balance cards in fin tab */
+.fin-balances{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:20px}
+.fin-bal-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px}
+.fin-bal-card .lbl{font-size:10px;color:var(--hint);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.fin-bal-card .val{font-size:24px;font-weight:600;font-family:'Rubik',Arial,monospace}
+.fin-bal-card .sub{font-size:11px;color:var(--hint);margin-top:4px}
+
+/* ── BANCA NAME BAR RESPONSIVE ── */
+@media(max-width:640px){
+  .banca-name-bar{padding:8px 12px 0}
+  .banca-name-bar .banca-nm{font-size:16px}
+}
+
+
+/* ── TIMELINE FINANCEIRA ── */
+.tl-day{margin-bottom:20px}
+.tl-day-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--hint);margin-bottom:10px;padding-left:4px}
+.tl-row{display:flex;gap:10px;margin-bottom:0}
+.tl-icon-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:36px}
+.tl-icon{flex-shrink:0;width:36px;height:36px;font-size:15px}
+.tl-line{flex:1;width:1px;background:var(--border);margin:4px 0;min-height:10px}
+.tl-row:last-child .tl-line{display:none}
+.tl-body{flex:1;padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:0}
+.tl-row:last-child .tl-body{border-bottom:none}
+.tl-main{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.tl-desc{flex:1;min-width:0}
+.tl-label{font-size:13px;font-weight:500;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-sub{font-size:11px;color:var(--hint);display:block;margin-top:2px}
+.tl-amount{font-size:14px;font-weight:600;text-align:right;flex-shrink:0}
+.tl-hora{font-size:10px;color:var(--hint);margin-top:3px;font-family:'Rubik',Arial,monospace}
+/* ── NOVA APOSTA: layout 2 colunas + boost colapsável ── */
+.ap-2col{display:grid;grid-template-columns:1fr 1fr;gap:0;height:100%}
+.ap-col{display:flex;flex-direction:column;gap:14px;padding:20px 18px;overflow-y:auto}
+.ap-col-left{border-right:1px solid var(--border)}
+.ap-col-right{background:var(--surface)}
+/* Boost collapsible */
+.boost-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;padding:0;background:none;border:none;font-family:'Rubik',sans-serif;color:var(--hint);font-size:11px;font-weight:500;letter-spacing:.03em;width:100%}
+.boost-toggle:hover{color:var(--muted)}
+.boost-arrow{font-size:10px;transition:transform .2s;display:inline-block;line-height:1}
+.boost-arrow.open{transform:rotate(90deg)}
+.boost-body{overflow:hidden;max-height:0;transition:max-height .25s ease,opacity .2s;opacity:0;pointer-events:none}
+.boost-body.open{max-height:120px;opacity:1;pointer-events:auto}
+@media(max-width:640px){
+  .ap-2col{grid-template-columns:1fr;height:auto}
+  .ap-col-left{border-right:none;border-bottom:1px solid var(--border)}
+  .ap-col{padding:16px 14px;gap:12px}
+}
+
+/* ── CENTER MODAL (aposta) ── */
+.modal-overlay.center-mode{align-items:center;justify-content:center;padding:20px}
+.modal-overlay.center-mode .modal{
+  width:900px;max-width:calc(100vw - 40px);
+  max-height:calc(100vh - 40px);
+  height:auto;
+  border-radius:var(--radius-xl);
+  border:1px solid var(--border2);
+  padding:0;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,.7)
+}
+.modal-center-header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-center-header h2{font-size:15px;font-weight:600;margin:0}
+.modal-center-close{width:30px;height:30px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .15s;font-family:'Rubik',sans-serif;line-height:1}
+.modal-center-close:hover{background:var(--surface3);color:var(--text)}
+.modal-center-body{display:flex;flex:1;overflow:hidden;min-height:0}
+.modal-center-col{display:flex;flex-direction:column;gap:14px;padding:20px 22px;overflow-y:auto}
+.modal-center-col-left{flex:1;border-right:1px solid var(--border)}
+.modal-center-col-right{width:380px;flex-shrink:0;background:var(--surface)}
+.modal-center-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;gap:10px;flex-shrink:0;background:var(--surface)}
+@media(max-width:700px){
+  .modal-overlay.center-mode .modal{max-width:100vw;max-height:100vh;height:100%;border-radius:0}
+  .modal-center-body{flex-direction:column}
+  .modal-center-col-left{border-right:none;border-bottom:1px solid var(--border)}
+  .modal-center-col-right{width:100%}
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script type="module">
@@ -440,10 +680,12 @@ try {
           if(d.movs)         window.movs         = d.movs;
           if(d.fontesCustom) window.fontesCustom = d.fontesCustom;
           if(d.banco)        window.banco        = d.banco;
+          if(d.movfin)       window.movfin       = d.movfin;
           if(window.casas.length)        window.nextCasaId     = Math.max(...window.casas.map(c=>c.id))+1;
           if(window.apostas.length)      window.nextApostaId   = Math.max(...window.apostas.map(a=>a.id))+1;
           if(window.movs.length)         window.nextMovId      = Math.max(...window.movs.map(m=>m.id))+1;
           if(window.banco?.movs?.length) window.nextBancoMovId = Math.max(...window.banco.movs.map(m=>m.id))+1;
+          if(window.movfin?.length)      window.nextMovfinId   = Math.max(...window.movfin.map(m=>m.id))+1;
           if(window.appReady) window.appReady();
         }
       } catch(e) {
@@ -487,6 +729,19 @@ try {
   <div style="font-size:11px;color:var(--hint);text-align:center;max-width:280px">Seus dados ficam salvos na sua conta Google,<br>acessíveis em qualquer dispositivo.</div>
 </div>
 
+<!-- BANKROLL SELECTOR SCREEN -->
+<div id="bankroll-screen">
+  <div class="bankroll-header">
+    <div class="bankroll-logo">apostas<span>.</span>track</div>
+    <div style="display:flex;align-items:center;gap:8px" id="bankroll-header-user"></div>
+  </div>
+  <div class="bankroll-body">
+    <div class="bankroll-title">Minhas Bancas</div>
+    <div class="bankroll-sub">Selecione uma banca para continuar</div>
+    <div class="bankrolls-grid" id="bankrolls-grid"></div>
+  </div>
+</div>
+
 <div id="main-app" style="display:block">
 <div class="app">
   <header class="header">
@@ -519,12 +774,18 @@ try {
     </div>
   </header>
 
+
+  <div class="banca-name-bar" id="banca-name-bar">
+    <div class="banca-nm" id="banca-nm-label">Banca <span id="banca-nm-count"></span></div>
+    <button class="btn-switch-bankroll" onclick="showBankrollScreen()">⇆ trocar banca</button>
+  </div>
   <main class="main">
     <div class="tabs">
-      <button class="tab active" id="tab-visao"      onclick="setTab('visao')">Visão geral</button>
-      <button class="tab"        id="tab-banca"      onclick="setTab('banca')">Gestão de banca</button>
-      <button class="tab"        id="tab-calendario" onclick="setTab('calendario')">Calendário</button>
-      <button class="tab"        id="tab-apostas"    onclick="setTab('apostas')">Apostas</button>
+      <button class="tab active" id="tab-visao"       onclick="setTab('visao')">Visão geral</button>
+      <button class="tab"        id="tab-financeiro"  onclick="setTab('financeiro')">Financeiro <span id="fin-pending-badge" style="display:none;background:var(--red);color:#fff;font-size:9px;font-weight:700;border-radius:20px;padding:1px 6px;margin-left:4px;vertical-align:middle">!</span></button>
+      <button class="tab"        id="tab-banca"       onclick="setTab('banca')">Banca</button>
+      <button class="tab"        id="tab-calendario"  onclick="setTab('calendario')">Calendário</button>
+      <button class="tab"        id="tab-apostas"     onclick="setTab('apostas')">Apostas</button>
     </div>
 
     <!-- VISÃO GERAL -->
@@ -594,6 +855,11 @@ try {
           style="width:100%;background:var(--surface);border:1px solid var(--border2);color:var(--text);padding:10px 14px;border-radius:var(--radius);font-size:13px;font-family:'Rubik',sans-serif;outline:none">
       </div>
       <div id="historico-wrap"></div>
+    </div>
+
+    <!-- FINANCEIRO -->
+    <div id="view-financeiro" style="display:none">
+      <div id="fin-view"></div>
     </div>
 
     <!-- GESTÃO DE BANCA -->
@@ -738,8 +1004,147 @@ const FB_CONFIG = {
 // ── FALLBACK LOCAL (quando offline ou sem config) ──────
 const SK_CASAS='ap_casas_v5', SK_APOSTAS='ap_apostas_v5',
       SK_BANCA='ap_banca_v5', SK_MOVS='ap_movs_v5', SK_FONTES='ap_fontes_v1',
-      SK_BANCO='ap_banco_v1', SK_REMINDERS='ap_reminders_v1';
+      SK_BANCO='ap_banco_v1', SK_REMINDERS='ap_reminders_v1', SK_MOVFIN='ap_movfin_v1';
 const FONTES_DEFAULT=['Casebre','Pei','DNC','Bet Dai','Própria'];
+// ── BANKROLL SYSTEM ──────────────────────────────────────
+const SK_BANKROLLS = 'ap_bankrolls_v1';
+
+// Load bankrolls list
+let bankrolls = JSON.parse(localStorage.getItem(SK_BANKROLLS) || 'null') || [
+  { id: 1, nome: 'Banca Principal', createdAt: new Date().toISOString() }
+];
+let activeBankrollId = parseInt(localStorage.getItem('ap_active_bankroll') || '1');
+
+function saveBankrolls(){
+  localStorage.setItem(SK_BANKROLLS, JSON.stringify(bankrolls));
+}
+
+function getActiveBankroll(){
+  return bankrolls.find(b=>b.id===activeBankrollId) || bankrolls[0];
+}
+
+function switchBankroll(id){
+  activeBankrollId = id;
+  localStorage.setItem('ap_active_bankroll', String(id));
+  // reload keys for this bankroll
+  const bk = bankrolls.find(b=>b.id===id);
+  if(!bk) return;
+  // rebuild storage keys scoped to this bankroll
+  rebuildBankrollKeys(id);
+  hideBankrollScreen();
+  updateBancaNameBar();
+  window.appReady();
+}
+
+function rebuildBankrollKeys(id){
+  const suffix = id === 1 ? '' : '_bk'+id;
+  window._BK_CASAS   = 'ap_casas_v5'+suffix;
+  window._BK_APOSTAS = 'ap_apostas_v5'+suffix;
+  window._BK_BANCA   = 'ap_banca_v5'+suffix;
+  window._BK_MOVS    = 'ap_movs_v5'+suffix;
+  window._BK_BANCO   = 'ap_banco_v1'+suffix;
+  window._BK_MOVFIN  = 'ap_movfin_v1'+suffix;
+  window._BK_FONTES  = 'ap_fontes_v1'+suffix;
+  window._BK_REMINDERS='ap_reminders_v1'+suffix;
+}
+
+// Init keys for active bankroll
+rebuildBankrollKeys(activeBankrollId);
+
+function getBKKey(base){
+  const map = {
+    [SK_CASAS]:   window._BK_CASAS,
+    [SK_APOSTAS]: window._BK_APOSTAS,
+    [SK_BANCA]:   window._BK_BANCA,
+    [SK_MOVS]:    window._BK_MOVS,
+    [SK_BANCO]:   window._BK_BANCO,
+    [SK_MOVFIN]:  window._BK_MOVFIN,
+    [SK_FONTES]:  window._BK_FONTES,
+    [SK_REMINDERS]: window._BK_REMINDERS,
+  };
+  return map[base] || base;
+}
+
+function showBankrollScreen(){
+  renderBankrollCards();
+  document.getElementById('bankroll-screen').classList.add('open');
+  // Show user info in bankroll header
+  const wrap = document.getElementById('bankroll-header-user');
+  if(wrap){
+    const avatar = document.getElementById('user-avatar');
+    const name = document.getElementById('user-name');
+    if(avatar && avatar.src && avatar.style.display!=='none'){
+      wrap.innerHTML = `<img src="${avatar.src}" style="width:28px;height:28px;border-radius:50%;object-fit:cover"> <span style="font-size:12px;color:var(--muted)">${name?.textContent||''}</span> <button class="btn btn-ghost btn-sm" onclick="window.fbSignOut&&window.fbSignOut()" style="font-size:11px;padding:4px 8px">Sair</button>`;
+    }
+  }
+}
+
+function hideBankrollScreen(){
+  document.getElementById('bankroll-screen').classList.remove('open');
+}
+
+function renderBankrollCards(){
+  const grid = document.getElementById('bankrolls-grid');
+  if(!grid) return;
+  
+  const cards = bankrolls.map(bk => {
+    const isActive = bk.id === activeBankrollId;
+    // Load this bankroll's data for stats
+    const bkSuffix = bk.id === 1 ? '' : '_bk'+bk.id;
+    const bkApostas = JSON.parse(localStorage.getItem('ap_apostas_v5'+bkSuffix)||'[]');
+    const bkBanca = JSON.parse(localStorage.getItem('ap_banca_v5'+bkSuffix)||'{"total":0}');
+    const bkCasas = JSON.parse(localStorage.getItem('ap_casas_v5'+bkSuffix)||'[]');
+    
+    const unVal = bkBanca.unidadeValor > 0 ? bkBanca.unidadeValor : (bkBanca.total > 0 && bkBanca.unidades > 0 ? bkBanca.total / bkBanca.unidades : 10);
+    let lucro = 0;
+    const resolved = bkApostas.filter(a=>a.resultado==='Green'||a.resultado==='Red'||a.resultado==='Recalculada');
+    resolved.forEach(a=>{
+      const v = unVal*(a.qtdUnidades||1);
+      if(a.resultado==='Green'||a.resultado==='Recalculada') lucro += v*a.odd-v;
+      else lucro -= v;
+    });
+    const roi = resolved.length > 0 ? lucro / resolved.reduce((s,a)=>s+unVal*(a.qtdUnidades||1),0) * 100 : 0;
+    const pending = bkApostas.filter(a=>a.resultado==='Pendente').length;
+    const lucroColor = lucro >= 0 ? 'var(--green)' : 'var(--red)';
+    
+    return `<div class="bankroll-card" onclick="switchBankroll(${bk.id})" style="${isActive?'border-color:rgba(34,197,94,0.5);':''}">
+      <div class="bk-accent"></div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px">
+        <div class="bk-name">${bk.nome}</div>
+        ${isActive?'<span style="font-size:10px;background:var(--green-dim);color:var(--green);border:1px solid var(--green-border);padding:2px 8px;border-radius:20px">Ativa</span>':''}
+      </div>
+      <div style="font-size:11px;color:var(--hint);margin-bottom:14px">${bkApostas.length} apostas</div>
+      <div class="bk-stats">
+        <div class="bk-stat"><div class="bk-stat-lbl">ROI</div><div class="bk-stat-val" style="color:${lucroColor}">${roi>=0?'+':''}${roi.toFixed(1)}%</div></div>
+        <div class="bk-stat"><div class="bk-stat-lbl">Lucro (u)</div><div class="bk-stat-val" style="color:${lucroColor}">${lucro>=0?'+':''}${(lucro/unVal).toFixed(1)}u</div></div>
+      </div>
+      ${pending>0?`<div class="bk-pending">⏳ ${pending} aposta${pending>1?'s':''} pendente${pending>1?'s':''}</div>`:''}
+    </div>`;
+  }).join('');
+  
+  grid.innerHTML = cards + `<div class="bankroll-add-card" onclick="openCreateBankrollModal()">
+    <div class="plus">+</div>
+    <span>Adicionar Bankroll</span>
+  </div>`;
+}
+
+function openCreateBankrollModal(){
+  const nome = prompt('Nome do novo bankroll:');
+  if(!nome || !nome.trim()) return;
+  const newId = bankrolls.length ? Math.max(...bankrolls.map(b=>b.id))+1 : 1;
+  bankrolls.push({id:newId, nome:nome.trim(), createdAt: new Date().toISOString()});
+  saveBankrolls();
+  renderBankrollCards();
+}
+
+function updateBancaNameBar(){
+  const bk = getActiveBankroll();
+  const label = document.getElementById('banca-nm-label');
+  const pending = apostas.filter(a=>a.resultado==='Pendente').length;
+  if(label) label.innerHTML = bk.nome + (pending > 0 ? ` <span style="background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-border)">${pending} pendente${pending>1?'s':''}</span>` : '');
+}
+
+
 
 // Firebase state
 let fbApp=null, fbDb=null, fbAuth=null, fbUser=null;
@@ -748,15 +1153,29 @@ let useFirebase = false;
 function isFirebaseConfigured(){ return true; }
 
 // ── INIT DATA (local fallback) ─────────────────────────
-let fontesCustom = JSON.parse(localStorage.getItem(SK_FONTES) || 'null') || [...FONTES_DEFAULT];
-let casas   = JSON.parse(localStorage.getItem(SK_CASAS)  || '[]');
-let apostas = JSON.parse(localStorage.getItem(SK_APOSTAS)|| '[]');
-let banca   = JSON.parse(localStorage.getItem(SK_BANCA)  ||
-  '{"total":1000,"unidades":100,"unidadeValor":10,"estrategia":"fixo","pct":2,"winrate":55,"oddMedia":1.8}');
-let movs    = JSON.parse(localStorage.getItem(SK_MOVS)   || '[]');
-// banco = dinheiro sacado das casas guardado "no banco" (fora das casas)
-let banco     = JSON.parse(localStorage.getItem(SK_BANCO)     || '{"saldo":0,"movs":[]}');
-let reminders = JSON.parse(localStorage.getItem(SK_REMINDERS) || '[]');
+function loadBankrollData(){
+  fontesCustom = JSON.parse(localStorage.getItem(window._BK_FONTES || SK_FONTES) || 'null') || [...FONTES_DEFAULT];
+  casas   = JSON.parse(localStorage.getItem(window._BK_CASAS   || SK_CASAS)  || '[]');
+  apostas = JSON.parse(localStorage.getItem(window._BK_APOSTAS || SK_APOSTAS)|| '[]');
+  banca   = JSON.parse(localStorage.getItem(window._BK_BANCA   || SK_BANCA)  ||
+    '{"total":1000,"unidades":100,"unidadeValor":10,"estrategia":"fixo","pct":2,"winrate":55,"oddMedia":1.8}');
+  movs    = JSON.parse(localStorage.getItem(window._BK_MOVS    || SK_MOVS)   || '[]');
+  banco     = JSON.parse(localStorage.getItem(window._BK_BANCO     || SK_BANCO)     || '{"saldo":0,"movs":[]}');
+  reminders = JSON.parse(localStorage.getItem(window._BK_REMINDERS || SK_REMINDERS) || '[]');
+  movfin    = JSON.parse(localStorage.getItem(window._BK_MOVFIN    || SK_MOVFIN)    || '[]');
+}
+let fontesCustom = [];
+let casas   = [];
+let apostas = [];
+let banca   = {};
+let movs    = [];
+let banco   = {saldo:0, movs:[]};
+let reminders = [];
+let movfin    = [];
+loadBankrollData();
+let nextMovfinId = movfin.length ? Math.max(...movfin.map(m=>m.id))+1 : 1;
+// casas com saldo pendente (negativo por "apostar mesmo assim")
+let pendingCasas = {};
 let nextRemId = reminders.length ? Math.max(...reminders.map(r=>r.id))+1 : 1;
 let nextBancoMovId = banco.movs?.length ? Math.max(...banco.movs.map(m=>m.id))+1 : 1;
 
@@ -801,20 +1220,25 @@ if(!casas.length){
 }
 
 function save(){
-  // always save locally as cache/offline backup
-  localStorage.setItem(SK_CASAS,  JSON.stringify(casas));
-  localStorage.setItem(SK_APOSTAS,JSON.stringify(apostas));
-  localStorage.setItem(SK_BANCA,  JSON.stringify(banca));
-  localStorage.setItem(SK_MOVS,   JSON.stringify(movs));
-  localStorage.setItem(SK_FONTES, JSON.stringify(fontesCustom));
-  localStorage.setItem(SK_BANCO,     JSON.stringify(banco));
-  localStorage.setItem(SK_REMINDERS, JSON.stringify(reminders));
+  // always save locally as cache/offline backup (scoped to active bankroll)
+  const _KC = window._BK_CASAS||SK_CASAS, _KA=window._BK_APOSTAS||SK_APOSTAS,
+        _KB=window._BK_BANCA||SK_BANCA, _KM=window._BK_MOVS||SK_MOVS,
+        _KF=window._BK_FONTES||SK_FONTES, _KBN=window._BK_BANCO||SK_BANCO,
+        _KR=window._BK_REMINDERS||SK_REMINDERS, _KMF=window._BK_MOVFIN||SK_MOVFIN;
+  localStorage.setItem(_KC,  JSON.stringify(casas));
+  localStorage.setItem(_KA,  JSON.stringify(apostas));
+  localStorage.setItem(_KB,  JSON.stringify(banca));
+  localStorage.setItem(_KM,  JSON.stringify(movs));
+  localStorage.setItem(_KF,  JSON.stringify(fontesCustom));
+  localStorage.setItem(_KBN, JSON.stringify(banco));
+  localStorage.setItem(_KR,  JSON.stringify(reminders));
+  localStorage.setItem(_KMF, JSON.stringify(movfin));
   // save to Firebase if connected
   if(useFirebase && fbDb && fbUser){
     const uid = fbUser.uid;
     const { doc, setDoc } = window.firestoreFns;
     setDoc(doc(fbDb,'users',uid,'data','main'), {
-      casas, apostas, banca, movs, fontesCustom, banco,
+      casas, apostas, banca, movs, fontesCustom, banco, movfin,
       updatedAt: new Date().toISOString()
     }).catch(e=>console.warn('Firebase save error:',e));
   }
@@ -888,11 +1312,11 @@ function statusBadge(r){
   return 'badge-amber'; // Pendente
 }
 function statusRetorno(a, v){
-  if(a.resultado==='Green')        return {txt: fmtS(v*a.odd-v), cor:'var(--green)'};
-  if(a.resultado==='Red')          return {txt: fmtS(-v),         cor:'var(--red)'};
-  if(a.resultado==='Anulada')      return {txt: 'Anulada',        cor:'var(--hint)'};
-  if(a.resultado==='Recalculada')  return {txt: fmtS(v*a.odd-v),  cor:'#a855f7'};
-  return {txt:'Pendente', cor:'var(--amber)'}; // Pendente
+  if(a.resultado==='Green')        return {txt: fmtS(v*a.odd-v), cor:'var(--green)',  lucro: v*a.odd-v};
+  if(a.resultado==='Red')          return {txt: fmtS(-v),         cor:'var(--red)',    lucro: -v};
+  if(a.resultado==='Anulada')      return {txt: 'Anulada',        cor:'var(--hint)',   lucro: 0};
+  if(a.resultado==='Recalculada')  return {txt: fmtS(v*a.odd-v),  cor:'#a855f7',      lucro: v*a.odd-v};
+  return {txt:'Pendente', cor:'var(--amber)', lucro: 0}; // Pendente
 }
 function modoGestao(){ return banca.estrategia||'fixo'; }
 
@@ -947,6 +1371,316 @@ function qtdOptionLabel(v){
   return v.toFixed(2)+'u';
 }
 
+// ════════════════════════════════════════════════════════════════
+// ██ MOTOR FINANCEIRO CENTRALIZADO v2 ████████████████████████████
+// ════════════════════════════════════════════════════════════════
+//
+// Única fonte de verdade: movfin[]
+// Estrutura padronizada:
+// { id, type, amount, source, destination, relatedBetId,
+//   description, createdAt, pending, metadata }
+//
+// Tipos: deposit | withdraw | transfer | bet | win | refund | adjustment
+// Entidades: 'banco' | 'externo' | 'apostas' | 'casa:<id>'
+// ════════════════════════════════════════════════════════════════
+
+// ── MIGRAÇÃO ÚNICA: converte dados legados (movs[] + banco.movs[]) para movfin[] ──
+function migrateToMovfin(){
+  if(movfin.some(m => m._migrated)) return; // já migrado
+  let dirty = false;
+
+  // 1. Migrar movs[] (depósitos e saques nas casas)
+  movs.forEach(mv => {
+    const alreadyIn = movfin.some(m => m.metadata?.legacyMovId === mv.id);
+    if(alreadyIn) return;
+    const key = 'casa:'+mv.casaId;
+    if(mv.tipo === 'dep'){
+      movfin.push(createRawMovement('deposit', 'banco', key, mv.valor,
+        mv.obs || 'Depósito', null, mv.data+'T00:00:00.000Z', {legacyMovId: mv.id}));
+    } else if(mv.tipo === 'saq'){
+      movfin.push(createRawMovement('withdraw', key, 'banco', mv.valor,
+        mv.obs || 'Saque', null, mv.data+'T00:00:00.000Z', {legacyMovId: mv.id}));
+    }
+    dirty = true;
+  });
+
+  // 2. Migrar apostas para movfin (bet + resultado se resolvido)
+  apostas.forEach(a => {
+    const alreadyBet = movfin.some(m => m.type==='bet' && m.relatedBetId===a.id);
+    if(alreadyBet) return;
+    const key = 'casa:'+a.casaId;
+    const unVal = banca.unidadeValor || 10;
+    const v = unVal * (a.qtdUnidades||1);
+    if(v <= 0) return;
+    // stake
+    movfin.push(createRawMovement('bet', key, 'apostas', v,
+      a.evento||'Aposta', a.id, a.data+'T00:00:00.000Z', {migrated:true}));
+    // resultado
+    if(a.resultado==='Green'||a.resultado==='Recalculada'){
+      const ret = v*a.odd;
+      movfin.push(createRawMovement('win', 'apostas', key, ret,
+        'Green: '+a.evento, a.id, a.data+'T00:10:00.000Z', {migrated:true}));
+    } else if(a.resultado==='Anulada'){
+      movfin.push(createRawMovement('refund', 'apostas', key, v,
+        'Anulada: '+a.evento, a.id, a.data+'T00:10:00.000Z', {migrated:true}));
+    }
+    dirty = true;
+  });
+
+  // 3. Migrar banco.saldo inicial se banco.movs existem e não foram migrados
+  if(banco.movs && banco.movs.length > 0){
+    banco.movs.forEach(bm => {
+      const alreadyIn = movfin.some(m => m.metadata?.legacyBancoMovId === bm.id);
+      if(alreadyIn) return;
+      // banco.movs de saída já foram capturados via movs[] acima
+      // banco.movs de entrada (saques) também
+      // Só migrar aportes externos (não relacionados a casas)
+      if(bm.obs && (bm.obs.startsWith('Depósito →') || bm.obs.startsWith('Saque de'))) return;
+      if(bm.tipo === 'entrada'){
+        movfin.push(createRawMovement('deposit', 'externo', 'banco', bm.valor,
+          bm.obs||'Aporte', null, (bm.data||new Date().toISOString().split('T')[0])+'T00:00:00.000Z',
+          {legacyBancoMovId: bm.id}));
+        dirty = true;
+      }
+    });
+  }
+
+  // 4. Se banco.saldo > 0 e não há nenhuma movimentação no banco, cria saldo inicial
+  const bancoBalance = calculateBalance('banco');
+  if(bancoBalance === 0 && banco.saldo > 0 && !movfin.some(m=>m.source==='banco'||m.destination==='banco')){
+    movfin.push(createRawMovement('adjustment', 'externo', 'banco', banco.saldo,
+      'Saldo inicial banco', null, '2020-01-01T00:00:00.000Z', {migrated:true, initialBalance:true}));
+    dirty = true;
+  }
+
+  if(dirty){
+    // re-sort by createdAt
+    movfin.sort((a,b)=>a.createdAt.localeCompare(b.createdAt));
+    nextMovfinId = movfin.length ? Math.max(...movfin.map(m=>m.id))+1 : 1;
+    save();
+  }
+}
+
+// ── CONSTRUTOR DE MOVIMENTAÇÃO (interno) ──
+function createRawMovement(type, source, destination, amount, description, relatedBetId=null, createdAt=null, metadata={}){
+  return {
+    id: nextMovfinId++,
+    type,
+    amount: parseFloat(Math.abs(amount).toFixed(2)),
+    source,
+    destination,
+    relatedBetId: relatedBetId||null,
+    description: description||'',
+    createdAt: createdAt || new Date().toISOString(),
+    pending: false,
+    metadata: metadata||{},
+  };
+}
+
+// ════════════════════════════════════════════════
+// ██ createFinancialMovement — PONTO CENTRAL ████
+// ════════════════════════════════════════════════
+// Toda alteração financeira DEVE passar por aqui.
+// Cria a movimentação, valida, persiste e recalcula.
+function createFinancialMovement(type, source, destination, amount, description, relatedBetId=null, opts={}){
+  if(!amount || isNaN(amount) || amount <= 0){
+    console.warn('[FM] Invalid amount:', amount);
+    return null;
+  }
+
+  const m = createRawMovement(type, source, destination, amount, description, relatedBetId, null, opts.metadata||{});
+  if(opts.pending) m.pending = true;
+
+  movfin.push(m);
+
+  // Sync legado para compatibilidade com calcCasa() / renderCasas()
+  _syncLegadoFromMovement(m);
+
+  return m;
+}
+
+// Sincroniza movimentação nova para o legado (movs[] + banco.saldo)
+// Mantém retrocompat com calcCasa() que ainda usa movs[]
+function _syncLegadoFromMovement(m){
+  const hoje = m.createdAt.split('T')[0];
+
+  if(m.type === 'deposit' && m.destination.startsWith('casa:')){
+    const casaId = parseInt(m.destination.split(':')[1]);
+    // Evitar duplicata no legado
+    if(!movs.some(mv => mv.metadata?.movfinId === m.id)){
+      movs.push({id:nextMovId++, casaId, tipo:'dep', valor:m.amount, data:hoje, obs:m.description, metadata:{movfinId:m.id}});
+    }
+    banco.saldo = parseFloat(((banco.saldo||0) - m.amount).toFixed(2));
+    if(!banco.movs) banco.movs=[];
+    banco.movs.push({id:nextBancoMovId++, tipo:'saida', valor:m.amount, data:hoje, obs:m.description});
+  }
+  else if(m.type === 'withdraw' && m.source.startsWith('casa:')){
+    const casaId = parseInt(m.source.split(':')[1]);
+    if(!movs.some(mv => mv.metadata?.movfinId === m.id)){
+      movs.push({id:nextMovId++, casaId, tipo:'saq', valor:m.amount, data:hoje, obs:m.description, metadata:{movfinId:m.id}});
+    }
+    banco.saldo = parseFloat(((banco.saldo||0) + m.amount).toFixed(2));
+    if(!banco.movs) banco.movs=[];
+    banco.movs.push({id:nextBancoMovId++, tipo:'entrada', valor:m.amount, data:hoje, obs:m.description});
+  }
+  else if(m.type === 'deposit' && m.destination === 'banco'){
+    banco.saldo = parseFloat(((banco.saldo||0) + m.amount).toFixed(2));
+    if(!banco.movs) banco.movs=[];
+    banco.movs.push({id:nextBancoMovId++, tipo:'entrada', valor:m.amount, data:hoje, obs:m.description});
+  }
+  else if(m.type === 'withdraw' && m.source === 'banco'){
+    banco.saldo = parseFloat(((banco.saldo||0) - m.amount).toFixed(2));
+    if(!banco.movs) banco.movs=[];
+    banco.movs.push({id:nextBancoMovId++, tipo:'saida', valor:m.amount, data:hoje, obs:m.description});
+  }
+  else if(m.type === 'adjustment' && m.destination === 'banco'){
+    banco.saldo = parseFloat(((banco.saldo||0) + m.amount).toFixed(2));
+    if(!banco.movs) banco.movs=[];
+    banco.movs.push({id:nextBancoMovId++, tipo:'entrada', valor:m.amount, data:hoje, obs:m.description});
+  }
+}
+
+// ════════════════════════════
+// ██ CÁLCULO DE SALDOS ██████
+// ════════════════════════════
+
+// Saldo de qualquer entidade pela soma de entradas - saídas em movfin
+// entityId: 'banco' | 'externo' | 'apostas' | 'casa:5'
+function calculateBalance(entityId){
+  let saldo = 0;
+  movfin.forEach(m => {
+    if(m.destination === entityId) saldo += m.amount;
+    if(m.source      === entityId) saldo -= m.amount;
+  });
+  return parseFloat(saldo.toFixed(2));
+}
+
+// Saldo de uma casa: usa movfin se disponível, senão cálculo legado
+function calculateCasaBalance(casaId){
+  const key = 'casa:'+casaId;
+  const hasMovfin = movfin.some(m => m.source===key || m.destination===key);
+  if(hasMovfin) return calculateBalance(key);
+  // fallback legado
+  const c = getCasa(casaId);
+  return c ? calcCasa(c).saldo : 0;
+}
+
+// Saldo do banco
+function calculateBankBalance(){
+  const hasMovfin = movfin.some(m => m.source==='banco' || m.destination==='banco');
+  if(hasMovfin) return calculateBalance('banco');
+  return banco.saldo || 0;
+}
+
+// Saldo global: todas as casas + banco
+function calculateGlobalBalance(){
+  const saldoCasas = casas.reduce((s,c) => s + calculateCasaBalance(c.id), 0);
+  const saldoBanco = calculateBankBalance();
+  return parseFloat((saldoCasas + saldoBanco).toFixed(2));
+}
+
+// ── Aliases para compatibilidade com código existente ──
+const calcSaldoCasa  = calculateCasaBalance;
+const calcSaldoBanco = calculateBankBalance;
+
+// Casas com saldo negativo (pendência financeira)
+function getPendingCasas(){
+  return casas.filter(c => {
+    const key = 'casa:'+c.id;
+    const hasMovfin = movfin.some(m => m.source===key || m.destination===key);
+    if(!hasMovfin) return false;
+    return calculateBalance(key) < -0.001;
+  });
+}
+
+// ════════════════════════
+// ██ FLUXOS DE NEGÓCIO ██
+// ════════════════════════
+
+// 1. DEPÓSITO EXTERNO NO BANCO (aporte)
+function registrarAporteBanco(valor, obs){
+  const m = createFinancialMovement('deposit', 'externo', 'banco', valor, obs||'Aporte no banco');
+  return m;
+}
+
+// 2. DEPÓSITO BANCO → CASA
+function registrarDeposito(casaId, valor, data, obs){
+  const c = getCasa(casaId); if(!c) return;
+  return createFinancialMovement('deposit', 'banco', 'casa:'+casaId, valor,
+    obs || 'Depósito em '+c.nome);
+}
+
+// 3. SAQUE CASA → BANCO
+function registrarSaque(casaId, valor, data, obs){
+  const c = getCasa(casaId); if(!c) return;
+  return createFinancialMovement('withdraw', 'casa:'+casaId, 'banco', valor,
+    obs || 'Saque de '+c.nome);
+}
+
+// 4. APOSTA: debita stake da casa
+function debitarStakeAposta(apostaId, casaId, stakeValor){
+  const c = getCasa(casaId);
+  return createFinancialMovement('bet', 'casa:'+casaId, 'apostas', stakeValor,
+    'Aposta'+(c?' em '+c.nome:''), apostaId);
+}
+
+// 5. GREEN: credita retorno na casa (stake + lucro)
+function creditarRetornoGreen(apostaId, casaId, retornoTotal){
+  const c = getCasa(casaId);
+  return createFinancialMovement('win', 'apostas', 'casa:'+casaId, retornoTotal,
+    'Green'+(c?' em '+c.nome:''), apostaId);
+}
+
+// 6. REFUND / ANULADA: devolve stake
+function creditarRefund(apostaId, casaId, stakeValor){
+  const c = getCasa(casaId);
+  return createFinancialMovement('refund', 'apostas', 'casa:'+casaId, stakeValor,
+    'Anulada'+(c?' em '+c.nome:''), apostaId);
+}
+
+// 7. AJUSTE MANUAL
+function registrarAjuste(entityId, valor, obs){
+  const isPositive = valor > 0;
+  return createFinancialMovement('adjustment',
+    isPositive ? 'externo' : entityId,
+    isPositive ? entityId  : 'externo',
+    Math.abs(valor), obs||'Ajuste manual');
+}
+
+// ── VERIFICAR SALDO ANTES DE APOSTAR ──
+function verificarSaldoParaAposta(casaId, stakeValor){
+  const key = 'casa:'+casaId;
+  const hasMovfin = movfin.some(m => m.source===key || m.destination===key);
+  if(hasMovfin) return calculateBalance(key) >= stakeValor - 0.001;
+  return true; // modo legado: não bloquear
+}
+
+// ── METADATA DE TIPO: ícones e labels ──
+const MOVFIN_META = {
+  deposit:    { icon:'⬇️', label:'Depósito',      cls:'dep' },
+  withdraw:   { icon:'⬆️', label:'Saque',         cls:'saq' },
+  bet:        { icon:'🎯', label:'Aposta',         cls:'bet' },
+  win:        { icon:'✅', label:'Green',          cls:'win' },
+  refund:     { icon:'↩️', label:'Reembolso',     cls:'refund' },
+  transfer:   { icon:'🔄', label:'Transferência', cls:'transfer' },
+  adjustment: { icon:'⚙️', label:'Ajuste',        cls:'adj' },
+};
+
+function entityLabel(id){
+  if(id==='banco')   return '🏦 Banco';
+  if(id==='apostas') return '🎲 Apostas';
+  if(id==='externo') return '🌐 Externo';
+  if(id?.startsWith('casa:')){
+    const c = getCasa(parseInt(id.split(':')[1]));
+    return c ? c.nome : 'Casa #'+id.split(':')[1];
+  }
+  return id||'?';
+}
+
+// ── COMPATIBILIDADE: addMovfin → createFinancialMovement ──
+function addMovfin(tipo, origem, destino, valor, descricao, apostaId=null){
+  return createFinancialMovement(tipo, origem, destino, valor, descricao, apostaId);
+}
 // gera as opções de unidades/% (0.25 a 10, passo 0.25)
 function unidOptions(selected){
   let opts='';
@@ -1189,19 +1923,25 @@ function renderGlobal(){
     .reduce((s,a)=>s+valorAposta(a.qtdUnidades||1),0);
   const roi=investidoResolvido>0?lucro/investidoResolvido*100:0;
 
+  const g2 = calcGlobal();
+  const progressao = g2.bancaTotal > 0 && banca.total > 0 ? (g2.bancaTotal / banca.total - 1) * 100 : 0;
   document.getElementById('gcards').innerHTML=`
-    <div class="dash-card"><div class="accent-bar" style="background:var(--blue)"></div>
-      <div class="lbl">Banca total</div><div class="val pos">${fmt(calcGlobal().bancaTotal)}</div></div>
-    <div class="dash-card"><div class="accent-bar" style="background:var(--muted)"></div>
-      <div class="lbl">Apostas</div><div class="val">${total}</div></div>
     <div class="dash-card"><div class="accent-bar" style="background:var(--green)"></div>
-      <div class="lbl">Lucro</div><div class="val ${lucro>=0?'pos':'neg'}">${fmtS(lucro)}</div></div>
+      <div class="lbl">Apostas</div>
+      <div class="val">${total}</div>
+      <div class="sub-val">${ganhos}G / ${perdas}P · ${apostas.filter(a=>a.resultado==='Pendente').length} pend.</div></div>
+    <div class="dash-card"><div class="accent-bar" style="background:var(--green)"></div>
+      <div class="lbl">Lucros</div>
+      <div class="val ${lucro>=0?'pos':'neg'}">${unLiq>=0?'+':''}${unLiq.toFixed(2)}u</div>
+      <div class="sub-val">${lucro>=0?'+ ':'− '}R$ ${Math.abs(lucro).toFixed(2)}</div></div>
     <div class="dash-card"><div class="accent-bar" style="background:var(--blue)"></div>
-      <div class="lbl">ROI</div><div class="val ${roi>=0?'pos':'neg'}">${fmtP(roi)}</div></div>
+      <div class="lbl">ROI</div>
+      <div class="val ${roi>=0?'pos':'neg'}">${roi>=0?'+':''}${roi.toFixed(2)}%</div>
+      <div class="sub-val">Apostas resolvidas</div></div>
     <div class="dash-card"><div class="accent-bar" style="background:#a855f7"></div>
-      <div class="lbl">Unidades</div><div class="val ${unLiq>=0?'pos':'neg'}">${unLiq>=0?'+':''}${unLiq.toFixed(1)}u</div></div>
-    <div class="dash-card"><div class="accent-bar" style="background:var(--amber)"></div>
-      <div class="lbl">Winrate</div><div class="val amber">${winrate.toFixed(1)}%</div></div>
+      <div class="lbl">Progressão</div>
+      <div class="val ${progressao>=0?'pos':'neg'}">${progressao>=0?'+':''}${progressao.toFixed(2)}%</div>
+      <div class="sub-val">Winrate: ${winrate.toFixed(1)}%</div></div>
   `;
   renderChart();
   renderHistorico();
@@ -1373,13 +2113,67 @@ function filterHistApostas(){
 
 const ESPORTE_ICON={'Futebol':'⚽','Basquete':'🏀','Tênis':'🎾','MMA/Boxe':'🥊','Vôlei':'🏐','Futebol Americano':'🏈','E-Sports':'🎮','Beisebol':'⚾','Hóquei no Gelo':'🏒','Fórmula 1':'🏎️','Handebol':'🤾','Golfe':'⛳','Rugby':'🏉','Tênis de Mesa':'🏓','Outro':'🎯'};
 
+// ── State: which day/month IDs are collapsed (persists across re-renders) ──
+const _histCollapsedDays   = new Set();
+const _histCollapsedMonths = new Set();
+
+// WEEKDAY names PT-BR
+const DIAS_SEMANA = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const MESES_FULL  = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+function histToggleDay(dayId){
+  if(_histCollapsedDays.has(dayId)) _histCollapsedDays.delete(dayId);
+  else _histCollapsedDays.add(dayId);
+  // toggle without full re-render
+  const body  = document.getElementById(dayId+'-body');
+  const arrow = document.getElementById(dayId+'-arrow');
+  if(!body) return;
+  const collapsed = _histCollapsedDays.has(dayId);
+  body.style.display  = collapsed ? 'none' : 'block';
+  if(arrow) arrow.classList.toggle('open', !collapsed);
+}
+
+function histToggleMonth(monthId){
+  if(_histCollapsedMonths.has(monthId)) _histCollapsedMonths.delete(monthId);
+  else _histCollapsedMonths.add(monthId);
+  const body  = document.getElementById(monthId+'-body');
+  const arrow = document.getElementById(monthId+'-arrow');
+  if(!body) return;
+  const collapsed = _histCollapsedMonths.has(monthId);
+  body.style.display  = collapsed ? 'none' : 'block';
+  if(arrow) arrow.classList.toggle('open', !collapsed);
+}
+
+// Casa badge color — reuse existing statusBadge palette logic for casas
+function casaBadgeStyle(nomeCasa){
+  const name = (nomeCasa||'').toLowerCase();
+  const palettes = {
+    'bet365':    'background:#1a7a3c;color:#fff',
+    'betano':    'background:#003087;color:#fff',
+    'sportingbet':'background:#e63b2e;color:#fff',
+    'superbet':  'background:#ff6b00;color:#fff',
+    'kto':       'background:#1a1a2e;color:#e0c96e',
+    'blaze':     'background:#e33;color:#fff',
+    'bodog':     'background:#1b3a6b;color:#d4a000',
+    'pinnacle':  'background:#c41230;color:#fff',
+    '1xbet':     'background:#1d6fa4;color:#fff',
+    'maxima':    'background:#7c3aed;color:#fff',
+    'bet7k':     'background:#0f172a;color:#38bdf8',
+    'estrela':   'background:#1e40af;color:#fbbf24',
+  };
+  for(const [k,v] of Object.entries(palettes)){
+    if(name.includes(k)) return v;
+  }
+  return 'background:var(--surface3);color:var(--muted)';
+}
+
 function renderHistorico(){
   const aps=filterHistApostas();
   const wrap=document.getElementById('historico-wrap');
   if(!wrap) return;
   if(!aps.length){wrap.innerHTML='<div class="empty">Nenhuma aposta encontrada.</div>';return;}
 
-  // group by month then day
+  // group by month then by day
   const byMonth={};
   aps.forEach(a=>{
     const m=a.data.slice(0,7);
@@ -1387,79 +2181,121 @@ function renderHistorico(){
     byMonth[m].apostas.push(a);
   });
 
-  const MESES_PT=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-
-  wrap.innerHTML=Object.entries(byMonth).map(([m,{apostas:mAps}])=>{
-    const [my,mm]=m.split('-');
-    const nomeMes=MESES_PT[parseInt(mm)-1]+' '+my;
-    const lucroMes=mAps.reduce((s,a)=>{
+  wrap.innerHTML = Object.entries(byMonth).map(([m,{apostas:mAps}])=>{
+    const [my,mm] = m.split('-');
+    const nomeMes = MESES_FULL[parseInt(mm)-1]+' '+my;
+    const monthId = 'month-'+m.replace(/-/g,'_');
+    const lucroMes = mAps.reduce((s,a)=>{
       const v=valorAposta(a.qtdUnidades||1);
       if(a.resultado==='Green'||a.resultado==='Recalculada') return s+v*a.odd-v;
       if(a.resultado==='Red') return s-v;
       return s;
     },0);
+    const lmColor = lucroMes>0?'var(--green)':lucroMes<0?'var(--red)':'var(--hint)';
+    const monthCollapsed = _histCollapsedMonths.has(monthId);
 
     // group by day
-    const byDay={};
+    const byDay = {};
     mAps.forEach(a=>{
       if(!byDay[a.data]) byDay[a.data]=[];
       byDay[a.data].push(a);
     });
 
-    const daysHTML=Object.entries(byDay).map(([d,dAps])=>{
-      const [dy,dm,dd]=d.split('-');
-      const lucroDay=dAps.reduce((s,a)=>{
+    const daysHTML = Object.entries(byDay).map(([d, dAps])=>{
+      const [dy, dm, dd] = d.split('-');
+      const dayId = 'day-'+d.replace(/-/g,'_');
+      const dayCollapsed = _histCollapsedDays.has(dayId);
+
+      // weekday name + day number
+      const dateObj = new Date(parseInt(dy), parseInt(dm)-1, parseInt(dd));
+      const diaSemana = DIAS_SEMANA[dateObj.getDay()];
+
+      const lucroDay = dAps.reduce((s,a)=>{
         const v=valorAposta(a.qtdUnidades||1);
         if(a.resultado==='Green'||a.resultado==='Recalculada') return s+v*a.odd-v;
         if(a.resultado==='Red') return s-v;
         return s;
       },0);
-      const ldColor=lucroDay>0?'var(--green)':lucroDay<0?'var(--red)':'var(--hint)';
+      const ldColor = lucroDay>0?'var(--green)':lucroDay<0?'var(--red)':'var(--hint)';
 
-      const apostasHTML=dAps.map(a=>{
-        const c=getCasa(a.casaId);
-        const v=valorAposta(a.qtdUnidades||1);
-        const sr=statusRetorno(a,v);
-        const bc=statusBadge(a.resultado);
-        const barColor=a.resultado==='Green'||a.resultado==='Recalculada'?'var(--green)':
-                        a.resultado==='Red'?'var(--red)':
-                        a.resultado==='Anulada'?'var(--hint)':'var(--amber)';
-        const icon=ESPORTE_ICON[a.esporte]||'🎯';
-        return`<div class="hist-aposta-row">
-          <div class="hist-esporte-icon">${icon}</div>
-          <div class="hist-info">
-            <div class="hist-evento">${a.evento}</div>
-            <div class="hist-meta">
-              <span>${c?c.nome:'?'}</span>
-              ${a.fonte?`<span>· ${a.fonte}</span>`:''}
-              <span>· ${d.split('-').reverse().join('/')}</span>
+      // Total units for day
+      const unVal = calcUnidadeValor()||1;
+
+      const apostasHTML = dAps.map(a=>{
+        const c = getCasa(a.casaId);
+        const v = valorAposta(a.qtdUnidades||1);
+        const sr = statusRetorno(a,v);
+        const icon = ESPORTE_ICON[a.esporte]||'🎯';
+        const barColor = a.resultado==='Green'||a.resultado==='Recalculada'?'var(--green)':
+                         a.resultado==='Red'?'var(--red)':
+                         a.resultado==='Anulada'?'var(--hint)':'var(--amber)';
+        const statusLabel = a.resultado==='Pendente'?'Pendente':a.resultado;
+
+        const hora = a.hora || '';
+        const casaNome = c ? c.nome : '?';
+        const badgeStyle = casaBadgeStyle(casaNome);
+
+        // valores em R$
+        const retornoTotal = v * a.odd;          // stake + lucro bruto
+        const lucroReal    = sr.lucro;            // já positivo/negativo
+
+        return `<div class="hist-aposta-row" style="cursor:pointer" onclick="openModal('editaposta',${a.id})" title="Clique para editar">
+          <div class="hist-row-main">
+            <div class="hist-row-left">
+              <div class="hist-hora-casa">
+                ${hora?`<span class="hist-hora">${hora}</span>`:''}
+                <span class="hist-casa-badge" style="${badgeStyle}">${casaNome}</span>
+                <span class="hist-esporte-icon">${icon}</span>
+              </div>
+              <div class="hist-evento">${a.evento}</div>
+              ${a.fonte?`<div class="hist-meta"><span>${a.fonte}</span></div>`:''}
+            </div>
+            <div class="hist-row-stats">
+              <div class="hist-stat">
+                <div class="lbl">Cotação</div>
+                <div class="val">${a.odd.toFixed(3)}</div>
+              </div>
+              <div class="hist-stat">
+                <div class="lbl">Valor</div>
+                <div class="val">${fmt(v)}</div>
+              </div>
+              <div class="hist-stat">
+                <div class="lbl">Retorno total</div>
+                <div class="val" style="color:var(--muted)">${a.resultado==='Pendente'?fmt(retornoTotal):a.resultado==='Red'?'—':a.resultado==='Anulada'?fmt(v):fmt(retornoTotal)}</div>
+              </div>
+              <div class="hist-stat">
+                <div class="lbl">Lucro</div>
+                <div class="val" style="color:${sr.cor}">${a.resultado==='Pendente'?'—':sr.txt}</div>
+              </div>
             </div>
           </div>
-          <div class="hist-right">
-            <div class="hist-stat"><div class="lbl">ODD</div><div class="val">${a.odd.toFixed(2)}</div></div>
-            <div class="hist-stat"><div class="lbl">VALOR</div><div class="val">${fmt(v)}</div></div>
-            <div class="hist-stat"><div class="lbl">LUCRO</div><div class="val" style="color:${sr.cor}">${sr.txt}</div></div>
-            <button class="btn btn-ghost btn-xs" onclick="openModal('editaposta',${a.id})" title="Alterar status" style="padding:3px 8px;font-size:11px">✎</button>
-          </div>
           <div class="hist-status-bar" style="background:${barColor}"></div>
+          <div class="hist-status-tag" style="background:${barColor}20;color:${barColor}">${statusLabel}</div>
         </div>`;
       }).join('');
 
-      const dayId=`day-${d.replace(/-/g,'_')}`;
-      return`<div class="hist-day-hdr" style="cursor:pointer;border-left:2px solid var(--border2);border-radius:0 var(--radius) var(--radius) 0" onclick="(function(hdr){const body=document.getElementById('${dayId}');const arr=hdr.querySelector('.day-arrow');const open=body.style.display==='none';body.style.display=open?'block':'none';arr.textContent=open?'▾':'▸';})(this)">
-          <span class="hist-day-label" style="display:flex;align-items:center;gap:5px"><span class="day-arrow" style="font-size:10px;color:var(--hint)">▾</span>${dd}/${dm}/${dy}</span>
+      return `<div class="hist-day-section">
+        <div class="hist-day-hdr" onclick="histToggleDay('${dayId}')">
+          <span class="hist-day-label">
+            <span class="hist-day-arrow${dayCollapsed?'':' open'}" id="${dayId}-arrow">▶</span>
+            ${diaSemana} ${dd}
+          </span>
           <span class="hist-day-lucro" style="color:${ldColor}">${lucroDay===0?'R$ 0,00':fmtS(lucroDay)}</span>
         </div>
-        <div id="${dayId}">${apostasHTML}</div>`;
+        <div id="${dayId}-body" style="display:${dayCollapsed?'none':'block'}">${apostasHTML}</div>
+      </div>`;
     }).join('');
 
-    const lmColor=lucroMes>0?'var(--green)':lucroMes<0?'var(--red)':'var(--hint)';
-    return`<div class="hist-month">
-      <div class="hist-month-hdr" onclick="(function(hdr){const body=hdr.nextElementSibling;const arrow=hdr.querySelector('.month-arrow');const open=body.style.display==='none';body.style.display=open?'block':'none';arrow.textContent=open?'▾':'▸';})(this)">
-        <span class="hist-month-title"><span class="month-arrow">▾</span> ${nomeMes} <span style="color:var(--hint);font-size:12px;font-weight:400">(${mAps.length})</span></span>
+    return `<div class="hist-month">
+      <div class="hist-month-hdr" onclick="histToggleMonth('${monthId}')">
+        <span class="hist-month-title">
+          <span class="hist-month-arrow${monthCollapsed?'':' open'}" id="${monthId}-arrow">▶</span>
+          ${nomeMes}
+          <span style="color:var(--hint);font-size:11px;font-weight:400">(${mAps.length})</span>
+        </span>
         <span class="hist-month-lucro" style="color:${lmColor}">${lucroMes===0?'R$ 0,00':fmtS(lucroMes)}</span>
       </div>
-      <div>${daysHTML}</div>
+      <div id="${monthId}-body" style="display:${monthCollapsed?'none':'block'}">${daysHTML}</div>
     </div>`;
   }).join('');
 }
@@ -1567,7 +2403,7 @@ function renderCasas(){
       </div>
 
       <!-- COMPACTO: saldo + sub -->
-      <div class="casa-saldo pos">${fmt(s.saldo)}</div>
+      <div class="casa-saldo pos">${fmt(calculateCasaBalance(c.id))}</div>
       <div class="casa-sub">depositado: ${fmt(s.depTotal)} &nbsp;·&nbsp; ${unidadesAtuais.toFixed(1)}u / meta: ${meta}u</div>
 
       <!-- EXPANDIDO -->
@@ -1604,14 +2440,18 @@ function saveBancoMov(tipo){
   const valor = parseFloat(document.getElementById('mBancoValor').value);
   const data  = document.getElementById('mBancoData').value;
   const obs   = (document.getElementById('mBancoObs').value||'').trim();
-  if(isNaN(valor)||valor<=0||!data){toast('Informe um valor válido.');return;}
+  if(isNaN(valor)||valor<=0||!data){ toast('Informe um valor válido.'); return; }
   const isEnt = tipo==='banco_entrada';
-  if(!isEnt && valor > banco.saldo + 0.001){
-    toast('Saldo insuficiente no banco.');return;
+  if(!isEnt){
+    const saldoBanco = calculateBankBalance();
+    if(valor > saldoBanco + 0.001){ toast('Saldo insuficiente no banco.'); return; }
   }
-  banco.saldo = parseFloat((banco.saldo + (isEnt?valor:-valor)).toFixed(2));
-  if(!banco.movs) banco.movs=[];
-  banco.movs.push({id:nextBancoMovId++, tipo:isEnt?'entrada':'saida', valor, data, obs});
+  createFinancialMovement(
+    isEnt ? 'deposit'  : 'withdraw',
+    isEnt ? 'externo'  : 'banco',
+    isEnt ? 'banco'    : 'externo',
+    valor, obs||(isEnt?'Entrada no banco':'Saída do banco')
+  );
   save(); closeModal(); renderBanco(); render();
   toast(isEnt?'Entrada registrada no banco!':'Saída registrada do banco!');
 }
@@ -1630,7 +2470,8 @@ function renderBanco(){
   const el = document.getElementById('banco-box');
   if(!el) return;
   const unVal = calcUnidadeValor();
-  const units = unVal > 0 ? banco.saldo / unVal : 0;
+  const bancaSaldo = calculateBankBalance();
+  const units = unVal > 0 ? bancaSaldo / unVal : 0;
   const movs_b = (banco.movs||[]).slice().reverse().slice(0,5);
 
   el.innerHTML = `<div class="banco-box">
@@ -1642,7 +2483,7 @@ function renderBanco(){
       </div>
     </div>
     <div style="text-align:right">
-      <div class="banco-val">${fmt(banco.saldo)}</div>
+      <div class="banco-val">${fmt(bancaSaldo)}</div>
       <div class="banco-units">${units.toFixed(2)} unidades</div>
     </div>
     <div class="banco-actions">
@@ -2280,7 +3121,23 @@ function comboRemove(id, val){
 function openModal(type, id){
   editId=id||null;
   const mc=document.getElementById('mc');
-  document.getElementById('overlay').classList.add('open');
+  const overlay = document.getElementById('overlay');
+  overlay.classList.add('open');
+  // Side panel for aposta modal
+  const mc2 = document.getElementById('mc');
+  if(type==='editaposta'){
+    overlay.classList.add('side-mode');
+    overlay.classList.remove('center-mode');
+    mc2.classList.add('modal-side');
+  } else if(type==='aposta'){
+    overlay.classList.add('center-mode');
+    overlay.classList.remove('side-mode');
+    mc2.classList.remove('modal-side');
+  } else {
+    overlay.classList.remove('side-mode');
+    overlay.classList.remove('center-mode');
+    mc2.classList.remove('modal-side');
+  }
 
   if(type==='casa'){
     mc.innerHTML=`<h2>Nova casa de aposta</h2>
@@ -2428,7 +3285,7 @@ function openModal(type, id){
     const a=apostas.find(x=>x.id===id);
     if(!a) return;
     const unVal=calcUnidadeValor();
-    const bancaTotal=banca.total||0;
+    const bancaTotal=(banca.total && banca.total>0) ? banca.total : (calcSaldoCasasDireto()+(banco.saldo||0));
     const esportes=['Futebol','Basquete','Tênis','Futebol Americano','E-Sports','Beisebol','MMA/Boxe','Vôlei','Hóquei no Gelo','Fórmula 1','Handebol','Golfe','Rugby','Tênis de Mesa','Outro'];
     // detect stake mode from saved aposta: if qtdUnidades looks like a % (stored as pct) or plain units
     activeStakeTab='unid';
@@ -2671,108 +3528,152 @@ function openModal(type, id){
   } else if(type==='aposta'){
     const hoje=new Date().toISOString().split('T')[0];
     const unVal=calcUnidadeValor();
-    const bancaTotal=banca.total||0;
+    const bancaTotal=(banca.total && banca.total>0) ? banca.total : (calcSaldoCasasDireto()+(banco.saldo||0));
     activeStakeTab='unid';
 
-    mc.innerHTML=`<h2>Nova aposta</h2>
-      <div class="form-row"><label>Data</label>
-        <input type="date" id="mData" value="${hoje}">
-      </div>
-      <div class="form-row"><label>Evento</label>
-        <input type="text" id="mEvento" placeholder="Ex: Flamengo x Palmeiras">
-      </div>
-      <div class="form-row"><label>Esporte</label>
-        <select id="mEsporte">
-          <option>Futebol</option><option>Basquete</option><option>Tênis</option>
-          <option>Futebol Americano</option><option>E-Sports</option><option>Beisebol</option>
-          <option>MMA/Boxe</option><option>Vôlei</option><option>Hóquei no Gelo</option>
-          <option>Fórmula 1</option><option>Handebol</option><option>Golfe</option>
-          <option>Rugby</option><option>Tênis de Mesa</option><option>Outro</option>
-        </select>
-      </div>
-      <div class="form-row"><label>Casa de aposta</label>
-        ${comboHtml('combo-casa', casas.map(c=>({value:String(c.id),label:c.nome})), 'Buscar casa...')}
-      </div>
-      <div class="form-row"><label>Odd</label>
-        <input type="number" id="mOdd" step="0.01" min="1.01" placeholder="1.80" oninput="prevAposta()">
-      </div>
+    mc.innerHTML=`
+    <div class="modal-center-header">
+      <h2>Adicionar aposta</h2>
+      <button class="modal-center-close" onclick="closeModal()">✕</button>
+    </div>
 
-      <div class="form-row">
-        <label>Valor da aposta</label>
-        <div style="display:flex;gap:6px;margin-bottom:8px">
-          <button type="button" id="stake-tab-unid" onclick="setStakeTab('unid')"
-            style="flex:1;padding:7px 4px;font-size:12px;font-weight:500;border-radius:var(--radius);border:1px solid var(--border3);background:var(--surface3);color:var(--text);cursor:pointer;font-family:'Rubik',sans-serif">
-            Unidades
-          </button>
-          <button type="button" id="stake-tab-pct" onclick="setStakeTab('pct')"
-            style="flex:1;padding:7px 4px;font-size:12px;font-weight:500;border-radius:var(--radius);border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-family:'Rubik',sans-serif">
-            % Banca
-          </button>
-          <button type="button" id="stake-tab-fixo" onclick="setStakeTab('fixo')"
-            style="flex:1;padding:7px 4px;font-size:12px;font-weight:500;border-radius:var(--radius);border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-family:'Rubik',sans-serif">
-            R$ Fixo
-          </button>
-        </div>
-        <div id="stake-unid-row">
-          <select class="pct-select" id="mQtdUnidades" onchange="prevAposta()">${unidOptions(1.0)}</select>
-          <span class="form-hint">Unidade = ${fmt(unVal)} · Banca: ${fmt(bancaTotal)}</span>
-        </div>
-        <div id="stake-pct-row" style="display:none">
-          <div style="display:flex;align-items:center;gap:8px">
-            <input type="number" id="mStakePct" step="0.1" min="0.1" max="100" placeholder="2.0"
-              oninput="prevAposta()"
-              style="flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:9px 12px;border-radius:var(--radius);font-size:13px;font-family:'Rubik','Roboto Mono',monospace;outline:none">
-            <span style="color:var(--muted);font-size:13px;white-space:nowrap">% da banca</span>
+    <div class="modal-center-body">
+
+      <!-- COLUNA ESQUERDA -->
+      <div class="modal-center-col modal-center-col-left">
+
+        <div class="ap-row2">
+          <div class="ap-field">
+            <label class="ap-lbl">Data</label>
+            <input type="date" id="mData" value="${hoje}" class="ap-input">
           </div>
-          <span class="form-hint">Banca: ${fmt(bancaTotal)} · Unidade base: ${fmt(unVal)}</span>
-        </div>
-        <div id="stake-fixo-row" style="display:none">
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="color:var(--muted);font-size:13px">R$</span>
-            <input type="number" id="mStakeFixo" step="0.01" min="0.01" placeholder="1.00"
-              oninput="prevAposta()"
-              style="flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:9px 12px;border-radius:var(--radius);font-size:13px;font-family:'Rubik','Roboto Mono',monospace;outline:none">
+          <div class="ap-field">
+            <label class="ap-lbl">Horário</label>
+            <input type="time" id="mHora" value="${new Date().toTimeString().slice(0,5)}" class="ap-input">
           </div>
-          <span class="form-hint">Valor fixo em R$ — ideal para apostas com limite (ex: R$ 1,00)</span>
         </div>
-      </div>
 
-      <div class="form-row">
-        <label>Ganhos aumentados <span style="font-size:10px;color:var(--hint);font-weight:400">opcional — boost %</span></label>
-        <div style="display:flex;align-items:center;gap:10px">
-          <input type="number" id="mBoost" step="1" min="0" max="500" placeholder="0"
-            oninput="prevAposta()"
-            style="width:80px;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:9px 12px;border-radius:var(--radius);font-size:13px;font-family:'Rubik','Roboto Mono',monospace;outline:none">
-          <span style="color:var(--muted);font-size:13px">%</span>
-          <span id="boost-odd-preview" style="font-size:12px;color:var(--green);font-family:'Rubik','Roboto Mono',monospace;display:none"></span>
+        <div class="ap-field">
+          <label class="ap-lbl">Evento</label>
+          <input type="text" id="mEvento" placeholder="Ex: Flamengo x Palmeiras" class="ap-input">
         </div>
-        <span class="form-hint">Odd final = 1 + ((Odd − 1) × (1 + boost%)). Ex: odd 2.05 + 25% → 2.3125</span>
+
+        <div class="ap-field">
+          <label class="ap-lbl">Esporte</label>
+          <select id="mEsporte" class="ap-input">
+            <option value="Futebol">⚽ Futebol</option>
+            <option value="Basquete">🏀 Basquete</option>
+            <option value="Tênis">🎾 Tênis</option>
+            <option value="Futebol Americano">🏈 Futebol Americano</option>
+            <option value="E-Sports">🎮 E-Sports</option>
+            <option value="Beisebol">⚾ Beisebol</option>
+            <option value="MMA/Boxe">🥊 MMA/Boxe</option>
+            <option value="Vôlei">🏐 Vôlei</option>
+            <option value="Hóquei no Gelo">🏒 Hóquei no Gelo</option>
+            <option value="Fórmula 1">🏎️ Fórmula 1</option>
+            <option value="Handebol">🤾 Handebol</option>
+            <option value="Golfe">⛳ Golfe</option>
+            <option value="Rugby">🏉 Rugby</option>
+            <option value="Tênis de Mesa">🏓 Tênis de Mesa</option>
+            <option value="Outro">🎯 Outro</option>
+          </select>
+        </div>
+
+        <div class="ap-field">
+          <label class="ap-lbl">De (fonte da aposta)</label>
+          ${comboHtml('combo-fonte', fontesCustom.map(f=>({value:f,label:f})), 'Buscar ou digitar...', true)}
+          <span class="ap-hint">Digite para filtrar · clique em ＋ para salvar nova fonte</span>
+        </div>
+
       </div>
 
-      <div class="prev-box" id="prevBox">
-        <div class="pi"><div class="lbl">Valor apostado</div><div class="val" id="pv-valor">—</div></div>
-        <div class="pi"><div class="lbl">Retorno potencial</div><div class="val pos" id="pv-retorno">—</div></div>
-        <div class="pi"><div class="lbl">Unidades</div><div class="val" id="pv-pct">—</div></div>
-        <div class="pi"><div class="lbl">Resultado líquido</div><div class="val pos" id="pv-liq">—</div></div>
-      </div>
+      <!-- COLUNA DIREITA -->
+      <div class="modal-center-col modal-center-col-right">
 
-      <div class="form-row"><label>De (fonte da aposta)</label>
-        ${comboHtml('combo-fonte', fontesCustom.map(f=>({value:f,label:f})), 'Buscar ou digitar...', true)}
-        <span class="form-hint">Digite para filtrar · clique em ＋ para salvar nova fonte</span>
+        <div class="ap-field">
+          <label class="ap-lbl">Casa de aposta</label>
+          <select id="mCasaSel" onchange="prevAposta()" class="ap-input">
+            <option value="">Buscar casa...</option>
+            ${casas.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('')}
+          </select>
+        </div>
+
+        <div class="ap-field">
+          <label class="ap-lbl">Odd</label>
+          <input type="number" id="mOdd" step="0.01" min="1.01" placeholder="1.80" oninput="prevAposta()" class="ap-input">
+        </div>
+
+        <div class="ap-field">
+          <button type="button" class="boost-toggle" id="boost-toggle-btn" onclick="toggleBoostPanel()">
+            <span class="boost-arrow" id="boost-arrow">▶</span>
+            <span>Ganhos aumentados</span>
+            <span style="margin-left:auto;font-size:10px;color:var(--hint)">opcional — boost %</span>
+          </button>
+          <div class="boost-body" id="boost-body">
+            <div style="padding-top:8px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;gap:8px;align-items:center">
+                <input type="number" id="mBoost" step="1" min="0" max="500" placeholder="0"
+                  oninput="prevAposta()" class="ap-input" style="flex:1">
+                <span style="color:var(--hint);font-size:13px;flex-shrink:0">%</span>
+                <span id="boost-odd-preview" style="font-size:11px;color:var(--green);font-family:'Rubik',monospace;white-space:nowrap"></span>
+              </div>
+              <div id="boost-odd-hint" class="ap-hint">Odd final = 1 + ((Odd − 1) × (1 + boost%))</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ap-field">
+          <label class="ap-lbl">Valor da aposta</label>
+          <div class="ap-stake-tabs">
+            <button id="stake-tab-unid" class="ap-stake-btn active" onclick="setStakeTab('unid')">Unidades</button>
+            <button id="stake-tab-fixo" class="ap-stake-btn" onclick="setStakeTab('fixo')">R$ Fixo</button>
+          </div>
+          <div id="stake-pct-row" style="display:none">
+            <input type="number" id="mStakePct" step="0.1" min="0.1" max="100" placeholder="2.0" oninput="prevAposta()" class="ap-input">
+          </div>
+          <div id="stake-unid-row">
+            <select class="ap-input ap-stake-select" id="mQtdUnidades" onchange="prevAposta()">${unidOptions(1.0)}</select>
+            <div class="ap-hint" style="margin-top:5px">Unidade = ${fmt(unVal)} · Banca: ${fmt(bancaTotal)}</div>
+          </div>
+          <div id="stake-fixo-row" style="display:none">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="color:var(--hint);font-size:13px;flex-shrink:0">R$</span>
+              <input type="number" id="mStakeFixo" step="0.01" min="0.01" placeholder="1.00"
+                oninput="prevAposta()" class="ap-input" style="flex:1">
+            </div>
+          </div>
+        </div>
+
+        <div class="ap-preview" id="prevBox">
+          <div class="ap-preview-left">
+            <div class="ap-preview-lbl">VALOR APOSTADO</div>
+            <div class="ap-preview-val" id="pv-valor">—</div>
+            <div class="ap-preview-lbl" style="margin-top:10px">UNIDADES</div>
+            <div class="ap-preview-val" id="pv-pct">—</div>
+          </div>
+          <div class="ap-preview-right">
+            <div class="ap-preview-lbl">LUCRO FINAL</div>
+            <div class="ap-preview-pill" id="pv-liq">—</div>
+            <div class="ap-preview-lbl" style="margin-top:10px">RETORNO TOTAL</div>
+            <div class="ap-preview-pill" id="pv-retorno">—</div>
+          </div>
+        </div>
+
+        <div class="ap-field">
+          <label class="ap-lbl">Status</label>
+          <select id="mResultado" class="ap-input">
+            <option selected>Pendente</option><option>Green</option><option>Red</option><option>Anulada</option><option>Recalculada</option>
+          </select>
+        </div>
+
       </div>
-      <div class="form-row"><label>Status</label>
-        <select id="mResultado">
-          <option selected>Pendente</option><option>Green</option><option>Red</option><option>Anulada</option><option>Recalculada</option>
-        </select>
-      </div>
-      <div class="modal-btns">
-        <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-        <button class="btn btn-solid" onclick="saveAposta()">Salvar</button>
-      </div>`;
-    setTimeout(()=>{
-      // campo casa começa em branco
-      prevAposta();
-    }, 50);
+    </div>
+
+    <div class="modal-center-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-solid" onclick="saveAposta()" style="flex:1;justify-content:center;padding:12px;font-size:14px">Salvar</button>
+    </div>`;
+    setTimeout(()=>{ prevAposta(); }, 50);
   }
 }
 
@@ -2784,6 +3685,20 @@ function toggleCustom(){
 
 
 // ─── STAKE TAB STATE ───
+function toggleBoostPanel(){
+  const body  = document.getElementById('boost-body');
+  const arrow = document.getElementById('boost-arrow');
+  if(!body) return;
+  const opening = !body.classList.contains('open');
+  body.classList.toggle('open', opening);
+  if(arrow) arrow.classList.toggle('open', opening);
+  // clear boost when closing
+  if(!opening){
+    const inp = document.getElementById('mBoost');
+    if(inp){ inp.value=''; prevAposta(); }
+  }
+}
+
 let activeStakeTab = 'unid';
 
 function setStakeTab(tab){
@@ -2791,9 +3706,15 @@ function setStakeTab(tab){
   ['unid','pct','fixo'].forEach(t=>{
     const btn = document.getElementById('stake-tab-'+t);
     const row = document.getElementById('stake-'+t+'-row');
-    if(btn){ 
-      if(t===tab){ btn.style.background='var(--surface3)'; btn.style.borderColor='var(--border3)'; btn.style.color='var(--text)'; }
-      else       { btn.style.background=''; btn.style.borderColor=''; btn.style.color=''; }
+    if(btn){
+      if(btn.classList.contains('ap-stake-btn')){
+        btn.classList.toggle('active', t===tab);
+      } else if(btn.classList.contains('format-pill')){
+        btn.classList.toggle('active', t===tab);
+      } else {
+        if(t===tab){ btn.style.background='var(--surface3)'; btn.style.borderColor='var(--border3)'; btn.style.color='var(--text)'; }
+        else       { btn.style.background=''; btn.style.borderColor=''; btn.style.color=''; }
+      }
     }
     if(row) row.style.display = t===tab ? 'block' : 'none';
   });
@@ -2803,7 +3724,11 @@ function setStakeTab(tab){
 function getStakeQtdAndValor(){
   // Returns {qtd (units), valor (R$)} based on active stake tab
   const unVal = calcUnidadeValor() || 1;
-  const bancaT = banca.total || 0;
+  // banca.total is kept in sync by render() → calcSaldoCasasDireto()+banco.saldo
+  // Use it directly; fall back to calcSaldoCasasDireto if not set
+  const bancaT = (banca.total && banca.total > 0)
+    ? banca.total
+    : (calcSaldoCasasDireto() + (banco.saldo||0));
   if(activeStakeTab==='pct'){
     const pct = parseFloat(document.getElementById('mStakePct')?.value)||0;
     const v = bancaT * pct / 100;
@@ -2830,26 +3755,83 @@ function prevAposta(){
   const boostPct = parseFloat(document.getElementById('mBoost')?.value)||0;
   const oddFinal = boostPct > 0 ? calcBoostOdd(oddBase) : oddBase;
   const pot = oddFinal>0 ? v*oddFinal-v : 0;
+  const retornoTotal = oddFinal>0 ? v*oddFinal : 0;
 
   const pvV = document.getElementById('pv-valor');
   const pvR = document.getElementById('pv-retorno');
   const pvP = document.getElementById('pv-pct');
   const pvL = document.getElementById('pv-liq');
   const boostPreview = document.getElementById('boost-odd-preview');
+  const boostHint = document.getElementById('boost-odd-hint');
+
+  // new ap-preview style (pills)
+  const isNew = pvR && pvR.classList.contains('ap-preview-pill');
 
   if(pvV) pvV.textContent = fmt(v);
-  if(pvR) pvR.textContent = oddFinal>0 ? '+'+fmt(pot) : '—';
-  if(pvP) pvP.textContent = qtd.toFixed(2)+'u = '+fmt(v);
-  if(pvL){
-    pvL.textContent = oddFinal>0 ? '+'+ fmt(pot) : '—';
-    pvL.className   = 'val pos';
+
+  if(pvP){
+    if(isNew){
+      pvP.textContent = qtd.toFixed(2)+'u = '+fmt(v);
+    } else {
+      pvP.textContent = qtd.toFixed(2)+'u = '+fmt(v);
+    }
   }
+
+  if(pvR){
+    if(isNew){
+      if(oddFinal>0 && v>0){
+        pvR.textContent = fmt(retornoTotal);
+        pvR.classList.add('has-val');
+        pvR.style.color='var(--green)';
+      } else {
+        pvR.textContent = '—';
+        pvR.classList.remove('has-val');
+        pvR.style.color='';
+      }
+    } else {
+      pvR.textContent = oddFinal>0 ? '+'+fmt(pot) : '—';
+    }
+  }
+
+  if(pvL){
+    if(isNew){
+      if(oddFinal>0 && v>0){
+        pvL.textContent = (pot>=0?'+ ':'− ')+'R$ '+Math.abs(pot).toFixed(2);
+        pvL.classList.add('has-val');
+        pvL.style.color = pot>=0?'var(--green)':'var(--red)';
+      } else {
+        pvL.textContent = '—';
+        pvL.classList.remove('has-val');
+        pvL.style.color='';
+      }
+    } else {
+      pvL.textContent = oddFinal>0 ? '+'+ fmt(pot) : '—';
+      pvL.className   = 'val pos';
+    }
+  }
+
   if(boostPreview){
     if(boostPct > 0 && oddBase > 0){
       boostPreview.textContent = oddBase.toFixed(2)+' → '+oddFinal.toFixed(4);
       boostPreview.style.display = 'inline';
     } else {
       boostPreview.textContent = '';
+      boostPreview.style.display = 'none';
+    }
+  }
+  if(boostHint){
+    if(boostPct > 0 && oddBase > 0){
+      boostHint.textContent = 'Odd final: '+oddFinal.toFixed(4);
+      boostHint.style.display = 'block';
+    } else {
+      // keep static formula text when boost panel is open but no value entered
+      const boostOpen = document.getElementById('boost-body')?.classList.contains('open');
+      if(!boostOpen){
+        boostHint.style.display = 'none';
+      } else {
+        boostHint.textContent = 'Odd final = 1 + ((Odd − 1) × (1 + boost%))';
+        boostHint.style.display = 'block';
+      }
     }
   }
 }
@@ -3162,8 +4144,217 @@ document.addEventListener('click', e=>{
   }
 });
 
-function closeModal(){document.getElementById('overlay').classList.remove('open');}
-function overlayClick(e){if(e.target.id==='overlay')closeModal();}
+// ══════════════════════════════════════════════════════
+// ── TIMELINE FINANCEIRA (Nubank style) ───────────────
+// ══════════════════════════════════════════════════════
+function buildTimeline(movs){
+  if(!movs.length) return '<div class="empty" style="padding:24px">Nenhuma movimentação ainda.<br><span style="font-size:11px">Registre depósitos, saques e apostas para ver o histórico aqui.</span></div>';
+
+  // Group by date
+  const byDate = {};
+  movs.forEach(m => {
+    const d = m.createdAt.split('T')[0];
+    if(!byDate[d]) byDate[d] = [];
+    byDate[d].push(m);
+  });
+
+  const MESES_ABR = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+  return Object.entries(byDate).map(([d, dMovs])=>{
+    const [y,mo,dy] = d.split('-');
+    const dt = new Date(parseInt(y), parseInt(mo)-1, parseInt(dy));
+    const today = dateStr(new Date());
+    const yst   = dateStr(new Date(Date.now()-86400000));
+    const label = d===today ? 'Hoje' : d===yst ? 'Ontem' : `${dy} ${MESES_ABR[parseInt(mo)-1]} ${y}`;
+
+    const rows = dMovs.map(m => {
+      const meta = MOVFIN_META[m.type] || {icon:'⚙️',label:m.type,cls:'adj'};
+      const isCredit = m.type==='win'||m.type==='deposit'||m.type==='refund'
+        ||(m.type==='adjustment'&&m.source==='externo')
+        ||(m.type==='withdraw'&&m.destination==='banco');
+      const amtCls = m.type==='bet'?'neg': isCredit?'pos':'neg';
+      const prefix  = m.type==='bet'?'− ': isCredit?'+ ':'− ';
+      const hora = m.createdAt.length > 10
+        ? new Date(m.createdAt).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) : '';
+      const from = entityLabel(m.source);
+      const to   = entityLabel(m.destination);
+      return `<div class="tl-row">
+        <div class="tl-icon-wrap">
+          <div class="tl-icon mov-icon ${meta.cls}">${meta.icon}</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-main">
+            <div class="tl-desc">
+              <span class="tl-label">${m.description||meta.label}</span>
+              <span class="tl-sub">${from} → ${to}</span>
+            </div>
+            <div class="tl-amount mov-amount ${amtCls}">${prefix}${fmt(m.amount)}</div>
+          </div>
+          ${hora?`<div class="tl-hora">${hora}</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+
+    return `<div class="tl-day">
+      <div class="tl-day-label">${label}</div>
+      ${rows}
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════
+// ── RENDER FINANCEIRO ────────────────────────────────
+// ══════════════════════════════════════════════════════
+function renderFinanceiro(){
+  const el = document.getElementById('fin-view');
+  if(!el) return;
+
+  const saldoBanco = calculateBankBalance();
+  const unVal = calcUnidadeValor();
+  
+  // Saldos das casas
+  const casaSaldos = casas.map(c=>({
+    c, saldo: calculateCasaBalance(c.id),
+    stat: calcCasa(c)
+  }));
+  const totalCasas = casaSaldos.reduce((s,x)=>s+x.saldo,0);
+  const totalGeral = totalCasas + saldoBanco;
+
+  // Pendências (casas com saldo negativo pelo motor)
+  const pending = getPendingCasas();
+  const pendingHTML = pending.length ? `
+    <div class="pending-alert">
+      <div class="icon">⚠️</div>
+      <div class="body">
+        <div class="title">Pendências financeiras</div>
+        <div class="items">${pending.map(c=>{
+          const s = calculateBalance('casa:'+c.id);
+          return `${c.nome}: <b style="color:var(--red)">${fmt(Math.abs(s))} negativos</b>`;
+        }).join(' &nbsp;·&nbsp; ')}</div>
+      </div>
+      <button class="btn btn-red btn-sm" onclick="setTab('financeiro')">Regularizar</button>
+    </div>` : '';
+
+  // Movimentações recentes (últimas 50)
+  const recentMovs = [...movfin].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).slice(0,50);
+  
+  const movRows = recentMovs.length ? recentMovs.map(m=>{
+    const meta = MOVFIN_META[m.type] || {icon:'⚙️',label:m.type,cls:'adj'};
+    const isCredit = m.type==='win'||m.type==='deposit'||m.type==='refund'||(m.type==='adjustment'&&m.source==='externo')||(m.type==='withdraw'&&m.destination==='banco')||(m.type==='transfer'&&m.destination!=='apostas');
+    const amtClass = m.type==='bet'?'neg': isCredit?'pos':'neg';
+    const prefix   = m.type==='bet'?'− ': isCredit?'+ ':'− ';
+    const dt = new Date(m.createdAt);
+    const dtStr = dt.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit'})+' '+dt.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    const from = entityLabel(m.source);
+    const to   = entityLabel(m.destination);
+    return `<div class="mov-row">
+      <div class="mov-icon ${meta.cls}">${meta.icon}</div>
+      <div class="mov-desc">
+        <div class="title">${m.description||meta.label}</div>
+        <div class="sub">${from} → ${to} &nbsp;·&nbsp; ${dtStr}</div>
+      </div>
+      <div class="mov-amount ${amtClass}">${prefix}${fmt(m.amount)}</div>
+    </div>`;
+  }).join('') : '<div class="empty" style="padding:24px">Nenhuma movimentação registrada ainda.<br><span style="font-size:11px">As movimentações aparecem automaticamente ao registrar depósitos, saques e apostas.</span></div>';
+
+  el.innerHTML = `
+    ${pendingHTML}
+
+    <!-- SALDOS -->
+    <div class="fin-section">
+      <div class="fin-section-title">
+        <span>💰 Saldos em tempo real</span>
+        <button class="btn btn-ghost btn-sm" onclick="openModal('banco_entrada')">+ Aporte</button>
+      </div>
+      <div class="fin-balances">
+        <div class="fin-bal-card" style="border-color:var(--blue-border)">
+          <div class="lbl">Total geral</div>
+          <div class="val" style="color:var(--blue)">${fmt(totalGeral)}</div>
+          <div class="sub">${unVal>0?(totalGeral/unVal).toFixed(1)+' unidades':''}</div>
+        </div>
+        <div class="fin-bal-card">
+          <div class="lbl">🏦 Banco</div>
+          <div class="val" style="color:${saldoBanco>=0?'var(--green)':'var(--red)'}">${fmt(saldoBanco)}</div>
+          <div class="sub">disponível para aportes</div>
+        </div>
+        ${casaSaldos.map(({c,saldo,stat})=>`
+        <div class="fin-bal-card">
+          <div class="lbl">${c.nome}</div>
+          <div class="val ${saldo<0?'neg':''}" style="${saldo>=0?'color:var(--green)':''}">${fmt(saldo)}</div>
+          <div class="sub">${fmtS(stat.lucroAps)} lucro · ${fmtP(stat.roi)} ROI</div>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- AÇÕES RÁPIDAS -->
+    <div class="fin-section">
+      <div class="fin-section-title">⚡ Ações rápidas</div>
+      <div class="fin-actions">
+        <button class="btn btn-green" onclick="openModal('banco_entrada')">⬇️ Depósito externo</button>
+        ${casas.map(c=>`<button class="btn btn-ghost btn-sm" onclick="openModal('deposito',${c.id})">⬇️ Depositar em ${c.nome}</button>`).join('')}
+        ${casas.map(c=>`<button class="btn btn-ghost btn-sm" onclick="openModal('saque',${c.id})">⬆️ Sacar de ${c.nome}</button>`).join('')}
+      </div>
+    </div>
+
+    <!-- TIMELINE FINANCEIRA -->
+    <div class="fin-section">
+      <div class="fin-section-title">
+        <span>📋 Timeline financeira (${recentMovs.length})</span>
+        ${movfin.length>50?`<span style="font-size:11px;color:var(--hint)">${movfin.length} total</span>`:''}
+      </div>
+      <div class="mov-list" id="fin-timeline">${buildTimeline(recentMovs)}</div>
+    </div>`;
+}
+
+function updatePendingBadges(){
+  const pending = getPendingCasas();
+  const hasPending = pending.length > 0;
+  // Tab badge
+  const badge = document.getElementById('fin-pending-badge');
+  if(badge) badge.style.display = hasPending ? 'inline' : 'none';
+  // Dashboard alert
+  let alert = document.getElementById('fin-dashboard-alert');
+  if(hasPending && !alert){
+    const gcards = document.getElementById('gcards');
+    if(gcards){
+      const div = document.createElement('div');
+      div.id = 'fin-dashboard-alert';
+      div.style.cssText = 'margin-bottom:14px';
+      div.innerHTML = `<div class="pending-alert">
+        <div class="icon">⚠️</div>
+        <div class="body">
+          <div class="title">Pendências financeiras detectadas</div>
+          <div class="items">${pending.map(c=>{
+            const s=calculateBalance('casa:'+c.id);
+            return c.nome+': R$ '+Math.abs(s).toFixed(2)+' negativo';
+          }).join(' · ')}</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="setTab('financeiro')">Ver →</button>
+      </div>`;
+      gcards.parentNode.insertBefore(div, gcards);
+    }
+  } else if(!hasPending && alert){
+    alert.remove();
+  }
+}
+
+function closeModal(){
+  const ov=document.getElementById('overlay');
+  ov.classList.remove('open','side-mode','center-mode');
+  document.getElementById('mc').classList.remove('modal-side');
+}
+function overlayClick(e){
+  if(e.target.id==='overlay'){
+    const ov = document.getElementById('overlay');
+    // For side-mode, only close if clicking the left backdrop area
+    if(ov.classList.contains('side-mode')){
+      closeModal();
+    } else {
+      closeModal();
+    }
+  }
+}
 
 function saveCasa(){
   const sel=document.getElementById('mNomeSel').value;
@@ -3173,9 +4364,9 @@ function saveCasa(){
   if(!nome){toast('Informe o nome da casa.');return;}
   const newId=nextCasaId++;
   casas.push({id:newId, nome, saldoInicial:saldo, unidade:10, metaUnidades:10});
+  const hoje=new Date().toISOString().split('T')[0];
   if(saldo>0){
-    movs.push({id:nextMovId++,casaId:newId,tipo:'dep',valor:saldo,
-      data:new Date().toISOString().split('T')[0],obs:'Depósito inicial'});
+    createFinancialMovement('adjustment','externo','casa:'+newId, saldo, 'Saldo inicial de '+nome);
   }
   save(); closeModal(); render(); toast('Casa adicionada!');
 }
@@ -3190,22 +4381,19 @@ function saveCasaEdit(){
 }
 
 function saveMov(tipo){
-  const valor=parseFloat(document.getElementById('mValorMov').value);
-  const data=document.getElementById('mDataMov').value;
-  const obs=(document.getElementById('mObsMov').value||'').trim();
-  if(isNaN(valor)||valor<=0||!data){toast('Informe um valor válido.');return;}
-  const isSaque = tipo==='saque';
-  movs.push({id:nextMovId++,casaId:editId,tipo:isSaque?'saq':'dep',valor,data,obs});
-  // saque da casa → automaticamente vai para o banco
-  if(isSaque){
-    if(!banco.movs) banco.movs=[];
-    const c=getCasa(editId);
-    banco.saldo = parseFloat((banco.saldo + valor).toFixed(2));
-    banco.movs.push({id:nextBancoMovId++, tipo:'entrada', valor, data,
-      obs:`Saque da ${c?c.nome:'casa'}${obs?' · '+obs:''}`});
+  const valor = parseFloat(document.getElementById('mValorMov').value);
+  const data  = document.getElementById('mDataMov').value;
+  const obs   = (document.getElementById('mObsMov').value||'').trim();
+  if(isNaN(valor)||valor<=0||!data){ toast('Informe um valor válido.'); return; }
+  if(tipo==='saque'){
+    registrarSaque(editId, valor, data, obs);
+    save(); closeModal(); render();
+    toast('Saque registrado → '+fmt(valor)+' adicionado ao banco');
+  } else {
+    registrarDeposito(editId, valor, data, obs);
+    save(); closeModal(); render();
+    toast('Depósito registrado!');
   }
-  save(); closeModal(); render();
-  toast(isSaque?`Saque registrado → R$ ${valor.toFixed(2)} adicionado ao banco`:'Depósito registrado!');
 }
 
 function delMov(id){
@@ -3257,38 +4445,160 @@ function delAposta(id){
 function saveApostaEdit(id){
   const data    =(document.getElementById('mData').value||'').trim();
   const evento  =(document.getElementById('mEvento').value||'').trim();
-  const esporte =document.getElementById('mEsporte').value;
+  const esporteRaw=document.getElementById('mEsporte').value;
+  const esporte = esporteRaw.replace(/^[^\w]+/,'').trim() || esporteRaw;
   const casaId  = parseInt(comboVal('combo-casa')) || (casas[0]?.id||1);
   const oddBase = parseFloat(document.getElementById('mOdd').value);
   const boostPct = parseFloat(document.getElementById('mBoost')?.value)||0;
   const odd = boostPct > 0 ? calcBoostOdd(oddBase) : oddBase;
-  const { qtd: qtdUnidades } = getStakeQtdAndValor();
+  const { qtd: qtdUnidades, valor: stakeValor } = getStakeQtdAndValor();
   const resultado=document.getElementById('mResultado').value;
   const fonte = comboVal('combo-fonte') || '';
   if(!data||!evento||isNaN(oddBase)||isNaN(qtdUnidades)){toast('Preencha todos os campos.');return;}
   const a=apostas.find(x=>x.id===id);
   if(!a){toast('Aposta não encontrada.');return;}
+
+  const statusAnterior = a.resultado;
+  const casaIdAnterior = a.casaId;
   Object.assign(a,{data,evento,esporte,casaId,odd,qtdUnidades,resultado,fonte});
   if(boostPct>0) a.boost=boostPct; else delete a.boost;
+
+  // Se o status mudou, registrar movimentações financeiras
+  const key = 'casa:'+casaId;
+  const hasMovfin = movfin.some(m => m.apostaId===id);
+  if(hasMovfin && statusAnterior !== resultado){
+    // Remover movimentações antigas de resultado (win/refund) desta aposta
+    movfin = movfin.filter(m => !(m.relatedBetId===id && (m.type==='win'||m.type==='refund')));
+    // Registrar novo resultado
+    if(resultado==='Green'||resultado==='Recalculada'){
+      const lucro = stakeValor*(odd-1);
+      creditarRetornoGreen(id, casaId, stakeValor + lucro);
+    } else if(resultado==='Anulada'){
+      creditarRefund(id, casaId, stakeValor);
+    }
+    // Red: stake já foi debitada, nada a fazer
+  }
+
   save(); closeModal(); render(); toast('Aposta atualizada!');
 }
 
-function saveAposta(){
+function saveAposta(_forceApostar=false){
   const data    =(document.getElementById('mData').value||'').trim();
+  const hora    =(document.getElementById('mHora')?.value||'').trim();
   const evento  =(document.getElementById('mEvento').value||'').trim();
   const esporte =document.getElementById('mEsporte').value;
-  const casaId  = parseInt(comboVal('combo-casa')) || null;
+  // Support both old combobox (combo-casa) and new select (mCasaSel)
+  const casaSel = document.getElementById('mCasaSel');
+  const casaId  = casaSel ? (parseInt(casaSel.value)||null) : (parseInt(comboVal('combo-casa'))||null);
   const oddBase = parseFloat(document.getElementById('mOdd').value);
   const boostPct = parseFloat(document.getElementById('mBoost')?.value)||0;
   const odd = boostPct > 0 ? calcBoostOdd(oddBase) : oddBase;
-  const { qtd: qtdUnidades } = getStakeQtdAndValor();
+  const { qtd: qtdUnidades, valor: stakeValor } = getStakeQtdAndValor();
   const resultado=document.getElementById('mResultado').value;
   const fonte = comboVal('combo-fonte') || '';
   if(!data||!evento||isNaN(oddBase)||isNaN(qtdUnidades)){toast('Preencha todos os campos.');return;}
   if(!casaId){toast('Selecione uma casa de aposta.');return;}
-  const entry = {id:nextApostaId++,data,evento,esporte,casaId,odd,qtdUnidades,resultado,fonte};
+
+  // Verificar saldo — sempre usa calculateCasaBalance (motor centralizado)
+  if(!_forceApostar && stakeValor > 0){
+    const saldoCasa = calculateCasaBalance(casaId);
+    if(saldoCasa < stakeValor - 0.001){
+      // Salvar estado atual do form para continuar após depósito
+      window._pendingAposta = {data,hora,evento,esporte,casaId,oddBase,boostPct,odd,qtdUnidades,stakeValor,resultado,fonte};
+      openModalSaldoInsuficiente(casaId, stakeValor, saldoCasa);
+      return;
+    }
+  }
+
+  const entry = {id:nextApostaId++,data,hora,evento,esporte,casaId,odd,qtdUnidades,resultado,fonte};
   if(boostPct>0) entry.boost = boostPct;
   apostas.push(entry);
+
+  // Debitar stake automaticamente (só se movfin ativo)
+  const key = 'casa:'+casaId;
+  const hasMovfin = movfin.some(m => m.source===key || m.destination===key);
+  if(hasMovfin) debitarStakeAposta(entry.id, casaId, stakeValor);
+
+  save(); closeModal(); render(); toast('Aposta registrada!');
+}
+
+function openModalSaldoInsuficiente(casaId, stakeValor, saldoAtual){
+  const mc = document.getElementById('mc');
+  const overlay = document.getElementById('overlay');
+  const c = getCasa(casaId);
+  overlay.classList.add('open');
+  const sugerido = Math.max(stakeValor - saldoAtual, 0).toFixed(2);
+  mc.innerHTML = `
+    <h2 style="color:var(--amber)">⚠️ Saldo insuficiente</h2>
+    <div style="background:var(--amber-dim);border:1px solid var(--amber-border);border-radius:var(--radius);padding:14px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:12px;color:var(--muted)">Casa</span>
+        <span style="font-weight:500">${c?c.nome:'?'}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:12px;color:var(--muted)">Stake necessária</span>
+        <span style="font-family:'Rubik',Arial,monospace;color:var(--amber)">${fmt(stakeValor)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between">
+        <span style="font-size:12px;color:var(--muted)">Saldo atual</span>
+        <span style="font-family:'Rubik',Arial,monospace;color:var(--red)">${fmt(saldoAtual)}</span>
+      </div>
+    </div>
+    <div class="form-row">
+      <label>Valor do depósito (R$)</label>
+      <input type="number" id="si-valor" step="0.01" min="0.01" value="${sugerido}"
+        style="background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:10px 12px;border-radius:var(--radius);font-size:14px;font-family:'Rubik',Arial,monospace;outline:none">
+    </div>
+    <div class="form-hint" style="margin-bottom:14px">O depósito será debitado do banco e creditado em ${c?c.nome:'?'} automaticamente.</div>
+    <div class="modal-btns" style="flex-direction:column;gap:8px">
+      <button class="btn btn-green" style="width:100%;justify-content:center" onclick="depositarEContinuarAposta(${casaId})">
+        ⬇️ Depositar e continuar aposta
+      </button>
+      <button class="btn btn-ghost" style="width:100%;justify-content:center;color:var(--amber)" onclick="apostarMesmoAssim(${casaId})">
+        🚀 Apostar mesmo assim (saldo negativo)
+      </button>
+      <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="closeModal();window._pendingAposta=null">
+        Cancelar
+      </button>
+    </div>`;
+}
+
+function depositarEContinuarAposta(casaId){
+  const valor = parseFloat(document.getElementById('si-valor')?.value)||0;
+  if(isNaN(valor)||valor<=0){ toast('Informe um valor válido.'); return; }
+  const hoje = new Date().toISOString().split('T')[0];
+  // Verificar saldo do banco
+  const saldoBanco = calculateBankBalance();
+  if(saldoBanco < valor - 0.001){
+    toast('Saldo insuficiente no banco (R$ '+saldoBanco.toFixed(2)+')');
+    return;
+  }
+  registrarDeposito(casaId, valor, hoje, 'Depósito automático para aposta');
+  save();
+  render();
+  toast('Depósito de '+fmt(valor)+' registrado!');
+  // Agora finalizar a aposta pendente
+  finalizarApostaPendente(true);
+}
+
+function apostarMesmoAssim(casaId){
+  // Marca a casa como com saldo pendente e continua
+  finalizarApostaPendente(true);
+  toast('⚠️ Aposta registrada com saldo pendente');
+}
+
+function finalizarApostaPendente(force){
+  const p = window._pendingAposta;
+  if(!p){ closeModal(); return; }
+  window._pendingAposta = null;
+  const entry = {id:nextApostaId++, data:p.data, hora:p.hora||'', evento:p.evento, esporte:p.esporte,
+    casaId:p.casaId, odd:p.odd, qtdUnidades:p.qtdUnidades, resultado:p.resultado, fonte:p.fonte};
+  if(p.boostPct>0) entry.boost = p.boostPct;
+  apostas.push(entry);
+  // Debitar stake (mesmo que fique negativo)
+  const key = 'casa:'+p.casaId;
+  const hasMovfin = movfin.some(m => m.source===key || m.destination===key);
+  if(hasMovfin) debitarStakeAposta(entry.id, p.casaId, p.stakeValor);
   save(); closeModal(); render(); toast('Aposta registrada!');
 }
 
@@ -3400,7 +4710,7 @@ function executeClear(){
 
   if(clrApostas){ apostas=[]; nextApostaId=1; }
   if(clrCasas)  { casas=[]; movs=[]; nextCasaId=1; nextMovId=1; }
-  if(clrBanco)  { banco={saldo:0,movs:[]}; nextBancoMovId=1; }
+  if(clrBanco)  { banco={saldo:0,movs:[]}; nextBancoMovId=1; movfin=[]; nextMovfinId=1; localStorage.removeItem(SK_MOVFIN); }
   if(clrBanca)  { banca={total:1000,unidades:100,unidadeValor:10,estrategia:'fixo',pct:2,winrate:55,oddMedia:1.8}; }
   if(clrFontes) { fontesCustom=[...FONTES_DEFAULT]; }
 
@@ -3415,7 +4725,7 @@ function executeClear(){
   if(useFirebase && fbDb && fbUser){
     const { doc, setDoc } = window.firestoreFns;
     setDoc(doc(fbDb,'users',fbUser.uid,'data','main'), {
-      casas, apostas, banca, movs, fontesCustom, banco,
+      casas, apostas, banca, movs, fontesCustom, banco, movfin,
       updatedAt: new Date().toISOString()
     }).catch(e=>console.warn('Firebase clear error:',e));
   }
@@ -3459,7 +4769,7 @@ function toast(msg){
 }
 
 function mnavActive(t){
-  ['visao','banca','calendario','apostas'].forEach(id=>{
+  ['visao','financeiro','banca','calendario','apostas'].forEach(id=>{
     const btn=document.getElementById('mnav-'+id);
     if(btn) btn.classList.toggle('active',id===t);
   });
@@ -3467,13 +4777,16 @@ function mnavActive(t){
 
 function setTab(t){
   activeTab=t;
-  ['visao','banca','calendario','apostas'].forEach(id=>{
-    document.getElementById('view-'+id).style.display=t===id?'block':'none';
-    document.getElementById('tab-'+id).className='tab'+(t===id?' active':'');
+  ['visao','financeiro','banca','calendario','apostas'].forEach(id=>{
+    const v=document.getElementById('view-'+id);
+    const tb=document.getElementById('tab-'+id);
+    if(v) v.style.display=t===id?'block':'none';
+    if(tb) tb.className='tab'+(t===id?' active':'');
   });
   mnavActive(t);
-  if(t==='calendario') renderCalendario();
-  if(t==='apostas')    renderApostas();
+  if(t==='calendario')  renderCalendario();
+  if(t==='apostas')     renderApostas();
+  if(t==='financeiro')  renderFinanceiro();
   if(t==='banca'){loadBancaForm(); renderBancaResumo(); calcBancaPreview();}
 }
 
@@ -3489,9 +4802,12 @@ function render(){
   const pending=reminders.filter(r=>!r.done).length;
   const badge=document.getElementById('reminder-badge');
   if(badge) badge.style.display=pending>0?'block':'none';
-  if(activeTab==='calendario') renderCalendario();
-  if(activeTab==='apostas')    renderApostas();
-  if(activeTab==='banca')      calcBancaPreview();
+  if(activeTab==='calendario')  renderCalendario();
+  if(activeTab==='apostas')     renderApostas();
+  if(activeTab==='banca')       calcBancaPreview();
+  if(activeTab==='financeiro')  renderFinanceiro();
+  updatePendingBadges();
+  updateBancaNameBar();
 }
 
 // expose FB_CONFIG and state to module script
@@ -3502,16 +4818,25 @@ window.banca        = banca;
 window.movs         = movs;
 window.fontesCustom = fontesCustom;
 window.banco        = banco;
+window.movfin       = movfin;
 
 // appReady: called by Firebase module after loading cloud data
 // also called immediately below so app always starts
 window.appReady = function(){
+  loadBankrollData();
   casas        = window.casas        || casas;
   apostas      = window.apostas      || apostas;
   banca        = window.banca        || banca;
   movs         = window.movs         || movs;
   fontesCustom = window.fontesCustom || fontesCustom;
   banco        = window.banco        || banco;
+  movfin       = window.movfin       || movfin;
+  if(movfin.length) nextMovfinId = Math.max(...movfin.map(m=>m.id))+1;
+  if(banco.movs?.length) nextBancoMovId = Math.max(...banco.movs.map(m=>m.id))+1;
+  if(casas.length)   nextCasaId   = Math.max(...casas.map(c=>c.id))+1;
+  if(apostas.length) nextApostaId = Math.max(...apostas.map(a=>a.id))+1;
+  if(movs.length)    nextMovId    = Math.max(...movs.map(m=>m.id))+1;
+  if(reminders.length) nextRemId  = Math.max(...reminders.map(r=>r.id))+1;
   // migration
   apostas.forEach(a=>{
     if(a.pctBanca !== undefined && a.qtdUnidades === undefined){ a.qtdUnidades=a.pctBanca; delete a.pctBanca; }
@@ -3519,6 +4844,7 @@ window.appReady = function(){
   });
   // Seed banca.total so calcUnidadeValor works on first render
   banca.total = calcSaldoCasasDireto() + (banco.saldo||0);
+  updateBancaNameBar();
   render();
 };
 
@@ -3532,14 +4858,14 @@ window.appReady();
     <button class="mnav-btn active" id="mnav-visao" onclick="setTab('visao');mnavActive('visao')">
       <span class="icon">📊</span>Visão
     </button>
-    <button class="mnav-btn" id="mnav-banca" onclick="setTab('banca');mnavActive('banca')">
-      <span class="icon">💰</span>Banca
+    <button class="mnav-btn" id="mnav-financeiro" onclick="setTab('financeiro');mnavActive('financeiro')">
+      <span class="icon">💳</span>Financeiro
     </button>
     <button class="mnav-btn" onclick="openModal('aposta')">
       <span class="mnav-add">+</span>
     </button>
-    <button class="mnav-btn" id="mnav-calendario" onclick="setTab('calendario');mnavActive('calendario')">
-      <span class="icon">📅</span>Calendário
+    <button class="mnav-btn" id="mnav-banca" onclick="setTab('banca');mnavActive('banca')">
+      <span class="icon">💰</span>Banca
     </button>
     <button class="mnav-btn" id="mnav-apostas" onclick="setTab('apostas');mnavActive('apostas')">
       <span class="icon">📋</span>Apostas
