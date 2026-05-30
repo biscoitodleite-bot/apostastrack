@@ -3126,9 +3126,9 @@ function openModal(type, id){
   // Side panel for aposta modal
   const mc2 = document.getElementById('mc');
   if(type==='editaposta'){
-    overlay.classList.add('side-mode');
-    overlay.classList.remove('center-mode');
-    mc2.classList.add('modal-side');
+    overlay.classList.add('center-mode');
+    overlay.classList.remove('side-mode');
+    mc2.classList.remove('modal-side');
   } else if(type==='aposta'){
     overlay.classList.add('center-mode');
     overlay.classList.remove('side-mode');
@@ -3287,114 +3287,154 @@ function openModal(type, id){
     const unVal=calcUnidadeValor();
     const bancaTotal=(banca.total && banca.total>0) ? banca.total : (calcSaldoCasasDireto()+(banco.saldo||0));
     const esportes=['Futebol','Basquete','Tênis','Futebol Americano','E-Sports','Beisebol','MMA/Boxe','Vôlei','Hóquei no Gelo','Fórmula 1','Handebol','Golfe','Rugby','Tênis de Mesa','Outro'];
-    // detect stake mode from saved aposta: if qtdUnidades looks like a % (stored as pct) or plain units
     activeStakeTab='unid';
-    mc.innerHTML=`<h2>Editar aposta</h2>
-      <div class="form-row"><label>Data</label>
-        <input type="date" id="mData" value="${a.data}">
-      </div>
-      <div class="form-row"><label>Evento</label>
-        <input type="text" id="mEvento" value="${a.evento}">
-      </div>
-      <div class="form-row"><label>Esporte</label>
-        <select id="mEsporte">
-          ${esportes.map(e=>`<option${a.esporte===e?' selected':''}>${e}</option>`).join('')}
-        </select>
-      </div>
-      <div class="form-row"><label>Casa de aposta</label>
-        ${comboHtml('combo-casa', casas.map(c=>({value:String(c.id),label:c.nome})), 'Buscar casa...')}
-      </div>
-      <div class="form-row"><label>Odd</label>
-        <input type="number" id="mOdd" step="0.01" min="1.01" value="${a.odd}" oninput="prevAposta()">
+
+    mc.innerHTML=`
+    <div class="modal-center-header">
+      <h2>Editar aposta</h2>
+      <button class="modal-center-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="modal-center-body">
+
+      <!-- COLUNA ESQUERDA -->
+      <div class="modal-center-col modal-center-col-left">
+
+        <div class="ap-row2">
+          <div class="ap-field">
+            <label class="ap-lbl">Data</label>
+            <input type="date" id="mData" value="${a.data}" class="ap-input">
+          </div>
+          <div class="ap-field">
+            <label class="ap-lbl">Horário</label>
+            <input type="time" id="mHora" value="${a.hora||''}" class="ap-input">
+          </div>
+        </div>
+
+        <div class="ap-field">
+          <label class="ap-lbl">Evento</label>
+          <input type="text" id="mEvento" value="${a.evento}" class="ap-input">
+        </div>
+
+        <div class="ap-field">
+          <label class="ap-lbl">Esporte</label>
+          <select id="mEsporte" class="ap-input">
+            ${esportes.map(e=>`<option${a.esporte===e?' selected':''}>${e}</option>`).join('')}
+          </select>
+        </div>
+
+        <div class="ap-field">
+          <label class="ap-lbl">De (fonte da aposta)</label>
+          ${comboHtml('combo-fonte', fontesCustom.map(f=>({value:f,label:f})), 'Buscar ou digitar...', true)}
+          <span class="ap-hint">Digite para filtrar · clique em ＋ para salvar nova fonte</span>
+        </div>
+
+        <!-- Excluir aposta -->
+        <div style="margin-top:auto;padding-top:16px;border-top:1px solid var(--border)">
+          <button class="btn btn-red btn-sm" onclick="confirmarExclusaoAposta(${id})">🗑 Excluir aposta</button>
+        </div>
+
       </div>
 
-      <div class="form-row">
-        <label>Valor da aposta</label>
-        <div style="display:flex;gap:6px;margin-bottom:8px">
-          <button type="button" id="stake-tab-unid" onclick="setStakeTab('unid')"
-            style="flex:1;padding:7px 4px;font-size:12px;font-weight:500;border-radius:var(--radius);border:1px solid var(--border3);background:var(--surface3);color:var(--text);cursor:pointer;font-family:'Rubik',sans-serif">
-            Unidades
-          </button>
-          <button type="button" id="stake-tab-pct" onclick="setStakeTab('pct')"
-            style="flex:1;padding:7px 4px;font-size:12px;font-weight:500;border-radius:var(--radius);border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-family:'Rubik',sans-serif">
-            % Banca
-          </button>
-          <button type="button" id="stake-tab-fixo" onclick="setStakeTab('fixo')"
-            style="flex:1;padding:7px 4px;font-size:12px;font-weight:500;border-radius:var(--radius);border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-family:'Rubik',sans-serif">
-            R$ Fixo
-          </button>
+      <!-- COLUNA DIREITA -->
+      <div class="modal-center-col modal-center-col-right">
+
+        <div class="ap-field">
+          <label class="ap-lbl">Casa de aposta</label>
+          <select id="mCasaSel" onchange="prevAposta()" class="ap-input">
+            <option value="">Buscar casa...</option>
+            ${casas.map(c=>`<option value="${c.id}"${a.casaId===c.id?' selected':''}>${c.nome}</option>`).join('')}
+          </select>
         </div>
-        <div id="stake-unid-row">
-          <select class="pct-select" id="mQtdUnidades" onchange="prevAposta()">${unidOptions(a.qtdUnidades||1)}</select>
-          <span class="form-hint">Unidade = ${fmt(unVal)} · Banca: ${fmt(bancaTotal)}</span>
+
+        <div class="ap-field">
+          <label class="ap-lbl">Odd</label>
+          <input type="number" id="mOdd" step="0.01" min="1.01" value="${a.odd}" oninput="prevAposta()" class="ap-input">
         </div>
-        <div id="stake-pct-row" style="display:none">
-          <div style="display:flex;align-items:center;gap:8px">
-            <input type="number" id="mStakePct" step="0.1" min="0.1" max="100" placeholder="2.0"
+
+        <div class="ap-field">
+          <button type="button" class="boost-toggle" id="boost-toggle-btn" onclick="toggleBoostPanel()">
+            <span class="boost-arrow${a.boost>0?' open':''}" id="boost-arrow">▶</span>
+            <span>Ganhos aumentados</span>
+            <span style="margin-left:auto;font-size:10px;color:var(--hint)">opcional — boost %</span>
+          </button>
+          <div class="boost-body${a.boost>0?' open':''}" id="boost-body">
+            <div style="padding-top:8px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;gap:8px;align-items:center">
+                <input type="number" id="mBoost" step="1" min="0" max="500" placeholder="0"
+                  value="${a.boost||''}"
+                  oninput="prevAposta()" class="ap-input" style="flex:1">
+                <span style="color:var(--hint);font-size:13px;flex-shrink:0">%</span>
+                <span id="boost-odd-preview" style="font-size:11px;color:var(--green);font-family:'Rubik',monospace;white-space:nowrap"></span>
+              </div>
+              <div id="boost-odd-hint" class="ap-hint">Odd final = 1 + ((Odd − 1) × (1 + boost%))</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ap-field">
+          <label class="ap-lbl">Valor da aposta</label>
+          <div class="ap-stake-tabs">
+            <button id="stake-tab-unid" class="ap-stake-btn active" onclick="setStakeTab('unid')">Unidades</button>
+            <button id="stake-tab-fixo" class="ap-stake-btn" onclick="setStakeTab('fixo')">R$ Fixo</button>
+          </div>
+          <div id="stake-pct-row" style="display:none">
+            <input type="number" id="mStakePct" step="0.1" min="0.1" max="100"
               value="${unVal>0&&bancaTotal>0?((a.qtdUnidades||1)*unVal/bancaTotal*100).toFixed(2):''}"
-              oninput="prevAposta()"
-              style="flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:9px 12px;border-radius:var(--radius);font-size:13px;font-family:'Rubik','Roboto Mono',monospace;outline:none">
-            <span style="color:var(--muted);font-size:13px;white-space:nowrap">% da banca</span>
+              oninput="prevAposta()" class="ap-input">
           </div>
-          <span class="form-hint">Banca: ${fmt(bancaTotal)} · Unidade base: ${fmt(unVal)}</span>
-        </div>
-        <div id="stake-fixo-row" style="display:none">
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="color:var(--muted);font-size:13px">R$</span>
-            <input type="number" id="mStakeFixo" step="0.01" min="0.01"
-              value="${unVal>0?((a.qtdUnidades||1)*unVal).toFixed(2):''}"
-              oninput="prevAposta()"
-              style="flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:9px 12px;border-radius:var(--radius);font-size:13px;font-family:'Rubik','Roboto Mono',monospace;outline:none">
+          <div id="stake-unid-row">
+            <select class="ap-input ap-stake-select" id="mQtdUnidades" onchange="prevAposta()">${unidOptions(a.qtdUnidades||1)}</select>
+            <div class="ap-hint" style="margin-top:5px">Unidade = ${fmt(unVal)} · Banca: ${fmt(bancaTotal)}</div>
           </div>
-          <span class="form-hint">Valor fixo em R$ — ideal para apostas com limite (ex: R$ 1,00)</span>
+          <div id="stake-fixo-row" style="display:none">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="color:var(--hint);font-size:13px;flex-shrink:0">R$</span>
+              <input type="number" id="mStakeFixo" step="0.01" min="0.01"
+                value="${unVal>0?((a.qtdUnidades||1)*unVal).toFixed(2):''}"
+                oninput="prevAposta()" class="ap-input" style="flex:1">
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="form-row">
-        <label>Ganhos aumentados <span style="font-size:10px;color:var(--hint);font-weight:400">opcional — boost %</span></label>
-        <div style="display:flex;align-items:center;gap:10px">
-          <input type="number" id="mBoost" step="1" min="0" max="500" placeholder="0"
-            value="${a.boost||0}"
-            oninput="prevAposta()"
-            style="width:80px;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:9px 12px;border-radius:var(--radius);font-size:13px;font-family:'Rubik','Roboto Mono',monospace;outline:none">
-          <span style="color:var(--muted);font-size:13px">%</span>
-          <span id="boost-odd-preview" style="font-size:12px;color:var(--green);font-family:'Rubik','Roboto Mono',monospace;display:none"></span>
+        <div class="ap-preview" id="prevBox">
+          <div class="ap-preview-left">
+            <div class="ap-preview-lbl">VALOR APOSTADO</div>
+            <div class="ap-preview-val" id="pv-valor">—</div>
+            <div class="ap-preview-lbl" style="margin-top:10px">UNIDADES</div>
+            <div class="ap-preview-val" id="pv-pct">—</div>
+          </div>
+          <div class="ap-preview-right">
+            <div class="ap-preview-lbl">LUCRO FINAL</div>
+            <div class="ap-preview-pill" id="pv-liq">—</div>
+            <div class="ap-preview-lbl" style="margin-top:10px">RETORNO TOTAL</div>
+            <div class="ap-preview-pill" id="pv-retorno">—</div>
+          </div>
         </div>
-        <span class="form-hint">Odd final = 1 + ((Odd − 1) × (1 + boost%)). Ex: odd 2.05 + 25% → 2.3125</span>
-      </div>
 
-      <div class="prev-box" id="prevBox">
-        <div class="pi"><div class="lbl">Valor apostado</div><div class="val" id="pv-valor">—</div></div>
-        <div class="pi"><div class="lbl">Retorno potencial</div><div class="val pos" id="pv-retorno">—</div></div>
-        <div class="pi"><div class="lbl">Unidades</div><div class="val" id="pv-pct">—</div></div>
-        <div class="pi"><div class="lbl">Resultado líquido</div><div class="val pos" id="pv-liq">—</div></div>
+        <div class="ap-field">
+          <label class="ap-lbl">Status</label>
+          <select id="mResultado" class="ap-input">
+            <option${a.resultado==='Pendente'?' selected':''}>Pendente</option>
+            <option${a.resultado==='Green'?' selected':''}>Green</option>
+            <option${a.resultado==='Red'?' selected':''}>Red</option>
+            <option${a.resultado==='Anulada'?' selected':''}>Anulada</option>
+            <option${a.resultado==='Recalculada'?' selected':''}>Recalculada</option>
+          </select>
+        </div>
+
       </div>
-      <div class="form-row"><label>De (fonte da aposta)</label>
-        ${comboHtml('combo-fonte', fontesCustom.map(f=>({value:f,label:f})), 'Buscar ou digitar...', true)}
-        <span class="form-hint">Digite para filtrar · clique em ＋ para salvar nova fonte</span>
-      </div>
-      <div class="form-row"><label>Status</label>
-        <select id="mResultado">
-          <option${a.resultado==='Pendente'?' selected':''}>Pendente</option>
-          <option${a.resultado==='Green'?' selected':''}>Green</option>
-          <option${a.resultado==='Red'?' selected':''}>Red</option>
-          <option${a.resultado==='Anulada'?' selected':''}>Anulada</option>
-          <option${a.resultado==='Recalculada'?' selected':''}>Recalculada</option>
-        </select>
-      </div>
-      <div class="modal-btns">
-        <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-        <button class="btn btn-solid" onclick="saveApostaEdit(${id})">Salvar alterações</button>
-      </div>
-      <div style="border-top:1px solid var(--border);margin-top:12px;padding-top:12px;display:flex;justify-content:flex-start">
-        <button class="btn btn-red btn-sm" onclick="confirmarExclusaoAposta(${id})">🗑 Excluir aposta</button>
-      </div>`;
+    </div>
+
+    <div class="modal-center-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-solid" onclick="saveApostaEdit(${id})" style="flex:1;justify-content:center;padding:12px;font-size:14px">Salvar alterações</button>
+    </div>`;
+
     setTimeout(()=>{
-      const c=getCasa(a.casaId);
-      if(c) comboSelect('combo-casa', String(c.id), c.nome);
       if(a.fonte) comboSelect('combo-fonte', a.fonte, a.fonte);
-      setStakeTab('unid');
-      prevAposta();
+      setStakeTab('unid', true); // skipPreview=true: não sobrescrever valor antes de tudo carregar
+      prevAposta(); // única chamada após todos os campos estarem prontos
     }, 50);
 
   } else if(type==='editstatus'){
@@ -3701,7 +3741,7 @@ function toggleBoostPanel(){
 
 let activeStakeTab = 'unid';
 
-function setStakeTab(tab){
+function setStakeTab(tab, skipPreview=false){
   activeStakeTab = tab;
   ['unid','pct','fixo'].forEach(t=>{
     const btn = document.getElementById('stake-tab-'+t);
@@ -3718,7 +3758,7 @@ function setStakeTab(tab){
     }
     if(row) row.style.display = t===tab ? 'block' : 'none';
   });
-  prevAposta();
+  if(!skipPreview) prevAposta();
 }
 
 function getStakeQtdAndValor(){
@@ -4444,10 +4484,13 @@ function delAposta(id){
 
 function saveApostaEdit(id){
   const data    =(document.getElementById('mData').value||'').trim();
+  const hora    =(document.getElementById('mHora')?.value||'').trim();
   const evento  =(document.getElementById('mEvento').value||'').trim();
   const esporteRaw=document.getElementById('mEsporte').value;
   const esporte = esporteRaw.replace(/^[^\w]+/,'').trim() || esporteRaw;
-  const casaId  = parseInt(comboVal('combo-casa')) || (casas[0]?.id||1);
+  // New layout uses mCasaSel select; fallback to combo-casa for old modals
+  const casaSel = document.getElementById('mCasaSel');
+  const casaId  = casaSel ? (parseInt(casaSel.value)||(casas[0]?.id||1)) : (parseInt(comboVal('combo-casa'))||(casas[0]?.id||1));
   const oddBase = parseFloat(document.getElementById('mOdd').value);
   const boostPct = parseFloat(document.getElementById('mBoost')?.value)||0;
   const odd = boostPct > 0 ? calcBoostOdd(oddBase) : oddBase;
@@ -4460,7 +4503,7 @@ function saveApostaEdit(id){
 
   const statusAnterior = a.resultado;
   const casaIdAnterior = a.casaId;
-  Object.assign(a,{data,evento,esporte,casaId,odd,qtdUnidades,resultado,fonte});
+  Object.assign(a,{data,hora,evento,esporte,casaId,odd,qtdUnidades,resultado,fonte});
   if(boostPct>0) a.boost=boostPct; else delete a.boost;
 
   // Se o status mudou, registrar movimentações financeiras
