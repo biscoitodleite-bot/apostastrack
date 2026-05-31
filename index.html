@@ -760,6 +760,7 @@ try {
     <div class="header-actions">
       <button class="btn btn-ghost btn-sm" onclick="exportCSV()">exportar CSV</button>
       <button class="btn btn-ghost btn-sm" onclick="openModal('importcsv')">importar CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="openSettings()" title="Configurações" style="font-size:15px;padding:6px 9px">⚙️</button>
       <button class="btn btn-ghost btn-sm" onclick="openModal('cleardata')" style="color:var(--red);border-color:var(--red-border)">🗑 limpar dados</button>
       <button class="btn btn-ghost" onclick="openModal('casa')">+ Casa</button>
       <button class="btn btn-ghost" onclick="openModal('scanimage')" title="Escanear print com IA" style="gap:5px">🤖 Scan</button>
@@ -850,9 +851,36 @@ try {
           <button class="period-btn" onclick="setHistPeriod('month',this)">Este Mês</button>
         </div>
       </div>
-      <div style="position:relative;margin-bottom:16px">
+      <div style="position:relative;margin-bottom:8px">
         <input type="text" id="histSearch" placeholder="🔍  Buscar evento, casa, fonte..." oninput="renderHistorico()"
           style="width:100%;background:var(--surface);border:1px solid var(--border2);color:var(--text);padding:10px 14px;border-radius:var(--radius);font-size:13px;font-family:'Rubik',sans-serif;outline:none">
+      </div>
+      <!-- Advanced filters row -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
+        <select class="hist-adv-filter" onchange="setHistFilter('casa',this.value)" title="Filtrar por casa"
+          style="background:var(--surface);border:1px solid var(--border2);color:var(--muted);padding:5px 10px;border-radius:var(--radius);font-size:11px;font-family:'Rubik',sans-serif;cursor:pointer;outline:none">
+          <option value="">Todas as casas</option>
+        </select>
+        <select class="hist-adv-filter" onchange="setHistFilter('resultado',this.value)"
+          style="background:var(--surface);border:1px solid var(--border2);color:var(--muted);padding:5px 10px;border-radius:var(--radius);font-size:11px;font-family:'Rubik',sans-serif;cursor:pointer;outline:none">
+          <option value="">Todos resultados</option>
+          <option value="Green">✅ Green</option>
+          <option value="Red">❌ Red</option>
+          <option value="Pendente">⏳ Pendente</option>
+          <option value="Anulada">↩️ Anulada</option>
+          <option value="Recalculada">🔄 Recalculada</option>
+        </select>
+        <select class="hist-adv-filter" onchange="setHistFilter('stake',this.value)"
+          style="background:var(--surface);border:1px solid var(--border2);color:var(--muted);padding:5px 10px;border-radius:var(--radius);font-size:11px;font-family:'Rubik',sans-serif;cursor:pointer;outline:none">
+          <option value="">Stake: todos</option>
+          <option value="unid">Unidades</option>
+          <option value="fixo">R$ Fixo</option>
+        </select>
+        <select class="hist-adv-filter" id="histFonteFilter" onchange="setHistFilter('fonte',this.value)"
+          style="background:var(--surface);border:1px solid var(--border2);color:var(--muted);padding:5px 10px;border-radius:var(--radius);font-size:11px;font-family:'Rubik',sans-serif;cursor:pointer;outline:none">
+          <option value="">Todas as fontes</option>
+        </select>
+        <button onclick="clearHistFilters()" style="background:none;border:none;color:var(--hint);font-size:11px;cursor:pointer;font-family:'Rubik',sans-serif;padding:5px 6px" title="Limpar filtros">✕ limpar</button>
       </div>
       <div id="historico-wrap"></div>
     </div>
@@ -1004,7 +1032,8 @@ const FB_CONFIG = {
 // ── FALLBACK LOCAL (quando offline ou sem config) ──────
 const SK_CASAS='ap_casas_v5', SK_APOSTAS='ap_apostas_v5',
       SK_BANCA='ap_banca_v5', SK_MOVS='ap_movs_v5', SK_FONTES='ap_fontes_v1',
-      SK_BANCO='ap_banco_v1', SK_REMINDERS='ap_reminders_v1', SK_MOVFIN='ap_movfin_v1';
+      SK_BANCO='ap_banco_v1', SK_REMINDERS='ap_reminders_v1', SK_MOVFIN='ap_movfin_v1',
+      SK_SETTINGS='ap_settings_v1';
 const FONTES_DEFAULT=['Casebre','Pei','DNC','Bet Dai','Própria'];
 // ── BANKROLL SYSTEM ──────────────────────────────────────
 const SK_BANKROLLS = 'ap_bankrolls_v1';
@@ -1111,7 +1140,10 @@ function renderBankrollCards(){
       <div class="bk-accent"></div>
       <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px">
         <div class="bk-name">${bk.nome}</div>
-        ${isActive?'<span style="font-size:10px;background:var(--green-dim);color:var(--green);border:1px solid var(--green-border);padding:2px 8px;border-radius:20px">Ativa</span>':''}
+        <div style="display:flex;align-items:center;gap:6px">
+          ${isActive?'<span style="font-size:10px;background:var(--green-dim);color:var(--green);border:1px solid var(--green-border);padding:2px 8px;border-radius:20px">Ativa</span>':''}
+          <button onclick="editBankroll(${bk.id},event)" style="background:none;border:none;color:var(--hint);font-size:12px;cursor:pointer;padding:2px 4px" title="Editar">✏️</button>
+        </div>
       </div>
       <div style="font-size:11px;color:var(--hint);margin-bottom:14px">${bkApostas.length} apostas</div>
       <div class="bk-stats">
@@ -1129,12 +1161,86 @@ function renderBankrollCards(){
 }
 
 function openCreateBankrollModal(){
-  const nome = prompt('Nome do novo bankroll:');
-  if(!nome || !nome.trim()) return;
-  const newId = bankrolls.length ? Math.max(...bankrolls.map(b=>b.id))+1 : 1;
-  bankrolls.push({id:newId, nome:nome.trim(), createdAt: new Date().toISOString()});
+  const mc=document.getElementById('mc');
+  const overlay=document.getElementById('overlay');
+  overlay.classList.remove('side-mode','center-mode');
+  mc.classList.remove('modal-side');
+  overlay.classList.add('open');
+  mc.innerHTML=`
+    <h2>➕ Novo Bankroll</h2>
+    <div class="form-row">
+      <label>Nome do bankroll</label>
+      <input type="text" id="bk-nome-input" placeholder="Ex: Banca Principal 2026" class="ap-input"
+        style="background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:10px 12px;border-radius:var(--radius);font-size:14px;width:100%;font-family:'Rubik',sans-serif;outline:none">
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-solid" onclick="confirmCreateBankroll()">Criar</button>
+    </div>`;
+  setTimeout(()=>document.getElementById('bk-nome-input')?.focus(),50);
+  document.getElementById('bk-nome-input').addEventListener('keydown',e=>{if(e.key==='Enter')confirmCreateBankroll();});
+}
+
+function confirmCreateBankroll(){
+  const nome=(document.getElementById('bk-nome-input')?.value||'').trim();
+  if(!nome){ toast('Informe um nome.'); return; }
+  const newId = bankrolls.length ? Math.max(...bankrolls.map(b=>b.id))+1 : 2;
+  bankrolls.push({id:newId, nome, createdAt:new Date().toISOString()});
   saveBankrolls();
+  closeModal();
   renderBankrollCards();
+  toast('✅ Bankroll "'+nome+'" criado!');
+}
+
+function editBankroll(id, e){
+  e && e.stopPropagation();
+  const bk=bankrolls.find(b=>b.id===id);
+  if(!bk) return;
+  const mc=document.getElementById('mc');
+  const overlay=document.getElementById('overlay');
+  overlay.classList.remove('side-mode','center-mode');
+  mc.classList.remove('modal-side');
+  overlay.classList.add('open');
+  mc.innerHTML=`
+    <h2>✏️ Editar Bankroll</h2>
+    <div class="form-row">
+      <label>Nome</label>
+      <input type="text" id="bk-edit-nome" value="${bk.nome}" class="ap-input"
+        style="background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:10px 12px;border-radius:var(--radius);font-size:14px;width:100%;font-family:'Rubik',sans-serif;outline:none">
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+      ${id!==1?`<button class="btn btn-red btn-sm" onclick="deleteBankroll(${id})">Excluir</button>`:''}
+      <button class="btn btn-solid" onclick="confirmEditBankroll(${id})">Salvar</button>
+    </div>`;
+  setTimeout(()=>document.getElementById('bk-edit-nome')?.focus(),50);
+}
+
+function confirmEditBankroll(id){
+  const bk=bankrolls.find(b=>b.id===id);
+  if(!bk) return;
+  const nome=(document.getElementById('bk-edit-nome')?.value||'').trim();
+  if(!nome){ toast('Informe um nome.'); return; }
+  bk.nome=nome;
+  saveBankrolls();
+  updateBancaNameBar();
+  closeModal();
+  renderBankrollCards();
+  toast('✅ Bankroll renomeado!');
+}
+
+function deleteBankroll(id){
+  if(id===1||id===activeBankrollId){ toast('Não é possível excluir o bankroll ativo ou o principal.'); return; }
+  if(!confirm('Excluir este bankroll e todos os seus dados?')) return;
+  // Remove all keys for this bankroll
+  const suffix='_bk'+id;
+  ['ap_casas_v5','ap_apostas_v5','ap_banca_v5','ap_movs_v5','ap_banco_v1','ap_movfin_v1','ap_fontes_v1','ap_reminders_v1']
+    .forEach(k=>localStorage.removeItem(k+suffix));
+  bankrolls=bankrolls.filter(b=>b.id!==id);
+  saveBankrolls();
+  closeModal();
+  renderBankrollCards();
+  toast('Bankroll excluído.');
 }
 
 function updateBancaNameBar(){
@@ -1178,6 +1284,39 @@ let nextMovfinId = movfin.length ? Math.max(...movfin.map(m=>m.id))+1 : 1;
 let pendingCasas = {};
 let nextRemId = reminders.length ? Math.max(...reminders.map(r=>r.id))+1 : 1;
 let nextBancoMovId = banco.movs?.length ? Math.max(...banco.movs.map(m=>m.id))+1 : 1;
+
+// ── SETTINGS (modo planilha vs modo financeiro completo) ──
+let appSettings = JSON.parse(localStorage.getItem(SK_SETTINGS) || '{"financeEnabled":true}');
+function isFinanceEnabled(){ return appSettings.financeEnabled !== false; }
+function setFinanceEnabled(v){
+  appSettings.financeEnabled = v;
+  localStorage.setItem(SK_SETTINGS, JSON.stringify(appSettings));
+  applyFinanceMode();
+  render();
+}
+function applyFinanceMode(){
+  const on = isFinanceEnabled();
+  const hide = el => { if(el) el.style.display = 'none'; };
+  const show = (el, disp='') => { if(el) el.style.display = disp; };
+  // Banco box
+  const bancoBox = document.getElementById('banco-box');
+  if(bancoBox) bancoBox.style.display = on ? '' : 'none';
+  // Tab financeiro
+  const finTab = document.getElementById('tab-financeiro');
+  if(finTab) finTab.style.display = on ? '' : 'none';
+  const mnavFin = document.getElementById('mnav-financeiro');
+  if(mnavFin) mnavFin.style.display = on ? '' : 'none';
+  // Pending badge
+  const badge = document.getElementById('fin-pending-badge');
+  if(badge) badge.style.display = (!on) ? 'none' : (badge.dataset.hasAlert==='1'?'inline':'none');
+  // Casa deposit/saque buttons
+  document.querySelectorAll('.casa-fin-btn').forEach(el => el.style.display = on ? '' : 'none');
+  // Saldo das casas
+  document.querySelectorAll('.casa-saldo-wrap').forEach(el => el.style.display = on ? '' : 'none');
+  // Dashboard pending alerts
+  const alert = document.getElementById('fin-dashboard-alert');
+  if(alert) alert.style.display = on ? '' : 'none';
+}
 
 let nextCasaId   = casas.length   ? Math.max(...casas.map(c=>c.id))+1   : 1;
 
@@ -2081,11 +2220,21 @@ function renderChart(){
 }
 
 
-// ─── HISTORICO ───
+// ─── HISTORICO — advanced filters ───
+let histFilterCasa='', histFilterFonte='', histFilterResultado='', histFilterStake='';
+
 function setHistPeriod(p, el){
   histPeriod=p;
   document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');
+  renderHistorico();
+}
+
+function setHistFilter(key, val){
+  if(key==='casa')      histFilterCasa=val;
+  if(key==='fonte')     histFilterFonte=val;
+  if(key==='resultado') histFilterResultado=val;
+  if(key==='stake')     histFilterStake=val;
   renderHistorico();
 }
 
@@ -2102,13 +2251,51 @@ function filterHistApostas(){
     if(histPeriod==='yesterday' && a.data!==ystStr)     return false;
     if(histPeriod==='7'         && new Date(a.data)<new Date(now-7*86400000)) return false;
     if(histPeriod==='month'     && !a.data.startsWith(monthStr)) return false;
+    // advanced filters
+    if(histFilterCasa      && String(a.casaId)!==histFilterCasa) return false;
+    if(histFilterFonte     && (a.fonte||'')!==histFilterFonte)   return false;
+    if(histFilterResultado && a.resultado!==histFilterResultado) return false;
+    if(histFilterStake==='fixo'  && a.stakeMethod!=='fixo')      return false;
+    if(histFilterStake==='unid'  && (a.stakeMethod||'unid')!=='unid') return false;
     if(bsc){
-      const c=getCasa(a.casaId);
-      const haystack=`${a.evento} ${c?c.nome:''} ${a.fonte||''} ${a.resultado}`.toLowerCase();
+      const cx=getCasa(a.casaId);
+      const haystack=`${a.evento} ${cx?cx.nome:''} ${a.fonte||''} ${a.resultado}`.toLowerCase();
       if(!haystack.includes(bsc)) return false;
     }
     return true;
-  }).sort((a,b)=>b.data.localeCompare(a.data)||b.id-a.id);
+  // Item 7: sort by date desc, then by hora desc within same day
+  }).sort((a,b)=>{
+    const dc=b.data.localeCompare(a.data);
+    if(dc!==0) return dc;
+    return (b.hora||'').localeCompare(a.hora||'');
+  });
+}
+
+function clearHistFilters(){
+  histFilterCasa=''; histFilterFonte=''; histFilterResultado=''; histFilterStake='';
+  histPeriod='all';
+  document.querySelectorAll('.hist-adv-filter').forEach(s=>s.selectedIndex=0);
+  document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));
+  const allBtn=document.querySelector('.period-btn');
+  if(allBtn) allBtn.classList.add('active');
+  const search=document.getElementById('histSearch'); if(search) search.value='';
+  renderHistorico();
+}
+
+function _populateHistFilterSelects(){
+  // Casa filter
+  const casaSel=document.querySelector('.hist-adv-filter');
+  if(casaSel && casaSel.options.length <= 1){
+    casas.forEach(c=>{ const o=new Option(c.nome,String(c.id)); casaSel.add(o); });
+    if(histFilterCasa) casaSel.value=histFilterCasa;
+  }
+  // Fonte filter
+  const fonteSel=document.getElementById('histFonteFilter');
+  if(fonteSel && fonteSel.options.length <= 1){
+    [...new Set(apostas.map(a=>a.fonte).filter(Boolean))].sort()
+      .forEach(f=>{ const o=new Option(f,f); fonteSel.add(o); });
+    if(histFilterFonte) fonteSel.value=histFilterFonte;
+  }
 }
 
 const ESPORTE_ICON={'Futebol':'⚽','Basquete':'🏀','Tênis':'🎾','MMA/Boxe':'🥊','Vôlei':'🏐','Futebol Americano':'🏈','E-Sports':'🎮','Beisebol':'⚾','Hóquei no Gelo':'🏒','Fórmula 1':'🏎️','Handebol':'🤾','Golfe':'⛳','Rugby':'🏉','Tênis de Mesa':'🏓','Outro':'🎯'};
@@ -2168,6 +2355,7 @@ function casaBadgeStyle(nomeCasa){
 }
 
 function renderHistorico(){
+  _populateHistFilterSelects();
   const aps=filterHistApostas();
   const wrap=document.getElementById('historico-wrap');
   if(!wrap) return;
@@ -2375,12 +2563,12 @@ function renderCasas(){
       if(diff > 0.5){
         sugestaoHTML = `<div style="background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:var(--radius);padding:8px 12px;margin-bottom:10px;font-size:12px;display:flex;align-items:center;justify-content:space-between;gap:8px">
           <span style="color:var(--blue)">💰 Sugestão: sacar <b>${fmt(diffValor)}</b> (${diff.toFixed(1)}u excedente)</span>
-          <button class="btn btn-ghost btn-xs" onclick="openModal('saque',${c.id})">Sacar</button>
+          <button class="btn btn-ghost btn-xs" class="btn btn-ghost btn-sm casa-fin-btn" onclick="openModal('saque',${c.id})">Sacar</button>
         </div>`;
       } else if(diff < -0.5){
         sugestaoHTML = `<div style="background:var(--amber-dim);border:1px solid var(--amber-border);border-radius:var(--radius);padding:8px 12px;margin-bottom:10px;font-size:12px;display:flex;align-items:center;justify-content:space-between;gap:8px">
           <span style="color:var(--amber)">⚠️ Sugestão: depositar <b>${fmt(diffValor)}</b> (${Math.abs(diff).toFixed(1)}u faltando)</span>
-          <button class="btn btn-ghost btn-xs" onclick="openModal('deposito',${c.id})">Depositar</button>
+          <button class="btn btn-ghost btn-xs" class="btn btn-ghost btn-sm casa-fin-btn" onclick="openModal('deposito',${c.id})">Depositar</button>
         </div>`;
       } else {
         sugestaoHTML = `<div style="background:var(--green-dim);border:1px solid var(--green-border);border-radius:var(--radius);padding:8px 12px;margin-bottom:10px;font-size:12px;color:var(--green)">
@@ -2403,7 +2591,7 @@ function renderCasas(){
       </div>
 
       <!-- COMPACTO: saldo + sub -->
-      <div class="casa-saldo pos">${fmt(calculateCasaBalance(c.id))}</div>
+      <div class="casa-saldo-wrap"><div class="casa-saldo pos">${fmt(calculateCasaBalance(c.id))}</div></div>
       <div class="casa-sub">depositado: ${fmt(s.depTotal)} &nbsp;·&nbsp; ${unidadesAtuais.toFixed(1)}u / meta: ${meta}u</div>
 
       <!-- EXPANDIDO -->
@@ -2788,7 +2976,8 @@ function moveMonth(d){
   if(d===0){calYear=new Date().getFullYear();calMonth=new Date().getMonth();}
   else{calMonth+=d;if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear--;}}
   selectedDay=null;
-  document.getElementById('day-detail-wrap').innerHTML='';
+  const ddw = document.getElementById('day-detail-wrap');
+  if(ddw) ddw.innerHTML='';
   renderCalendario();
 }
 
@@ -2833,7 +3022,8 @@ function renderCalendario(){
     </div>
   `;
 
-  document.getElementById('cal-title').textContent=MESES[calMonth]+' '+calYear;
+  const calTitle = document.getElementById('cal-title');
+  if(calTitle) calTitle.textContent = MESES[calMonth]+' '+calYear;
   const grid=document.getElementById('cal-grid');
   const tod=today0();
   let html=DIAS.map(d=>`<div class="cal-dow">${d}</div>`).join('');
@@ -3433,8 +3623,10 @@ function openModal(type, id){
 
     setTimeout(()=>{
       if(a.fonte) comboSelect('combo-fonte', a.fonte, a.fonte);
-      setStakeTab('unid', true); // skipPreview=true: não sobrescrever valor antes de tudo carregar
-      prevAposta(); // única chamada após todos os campos estarem prontos
+      // Restore original stake method — never default to 'unid' if saved as 'fixo'
+      const savedTab = (a.stakeMethod==='fixo'||a.stakeMethod==='pct') ? a.stakeMethod : 'unid';
+      setStakeTab(savedTab, true); // skipPreview=true: init sem recalcular prematuramente
+      prevAposta();
     }, 50);
 
   } else if(type==='editstatus'){
@@ -4330,10 +4522,11 @@ function renderFinanceiro(){
     <!-- AÇÕES RÁPIDAS -->
     <div class="fin-section">
       <div class="fin-section-title">⚡ Ações rápidas</div>
-      <div class="fin-actions">
-        <button class="btn btn-green" onclick="openModal('banco_entrada')">⬇️ Depósito externo</button>
-        ${casas.map(c=>`<button class="btn btn-ghost btn-sm" onclick="openModal('deposito',${c.id})">⬇️ Depositar em ${c.nome}</button>`).join('')}
-        ${casas.map(c=>`<button class="btn btn-ghost btn-sm" onclick="openModal('saque',${c.id})">⬆️ Sacar de ${c.nome}</button>`).join('')}
+      <div class="fin-actions" style="gap:10px">
+        <button class="btn btn-green" style="flex:1;min-width:140px;justify-content:center" onclick="openQuickAction('deposito')">⬇️ Depositar</button>
+        <button class="btn btn-ghost" style="flex:1;min-width:140px;justify-content:center" onclick="openQuickAction('saque')">⬆️ Sacar</button>
+        <button class="btn btn-ghost" style="flex:1;min-width:140px;justify-content:center" onclick="openQuickAction('ajuste')">⚙️ Corrigir saldo</button>
+        <button class="btn btn-ghost" style="flex:1;min-width:140px;justify-content:center" onclick="openModal('banco_entrada')">🏦 Aporte no banco</button>
       </div>
     </div>
 
@@ -4376,6 +4569,136 @@ function updatePendingBadges(){
     }
   } else if(!hasPending && alert){
     alert.remove();
+  }
+}
+
+// ── QUICK ACTION MODAL (depositar/sacar/ajuste em qualquer casa) ──
+function openQuickAction(tipo){
+  const mc=document.getElementById('mc');
+  const overlay=document.getElementById('overlay');
+  overlay.classList.remove('side-mode','center-mode');
+  mc.classList.remove('modal-side');
+  overlay.classList.add('open');
+  const titles={deposito:'⬇️ Depositar',saque:'⬆️ Sacar',ajuste:'⚙️ Corrigir Saldo'};
+  const hoje=new Date().toISOString().split('T')[0];
+  mc.innerHTML=`
+    <h2>${titles[tipo]||tipo}</h2>
+    <div class="form-row"><label>Casa de aposta</label>
+      <select id="qa-casa" class="ap-input" onchange="qaUpdateSaldo()">
+        <option value="">Selecionar casa...</option>
+        ${casas.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('')}
+      </select>
+    </div>
+    ${tipo==='ajuste'?`
+    <div class="form-row">
+      <label>Saldo atual</label>
+      <div id="qa-saldo-atual" style="font-size:16px;font-weight:600;font-family:'Rubik',Arial,monospace;color:var(--green);padding:8px 0">—</div>
+    </div>
+    <div class="form-row"><label>Novo saldo correto (R$)</label>
+      <input type="number" id="qa-valor" step="0.01" min="0" placeholder="0.00" class="ap-input" oninput="qaPreviewAjuste()">
+    </div>
+    <div id="qa-diff-preview" style="font-size:12px;color:var(--hint);margin-top:4px"></div>
+    `:`
+    <div class="form-row"><label>Valor (R$)</label>
+      <input type="number" id="qa-valor" step="0.01" min="0.01" placeholder="0.00" class="ap-input">
+    </div>`}
+    <div class="form-row"><label>Observação (opcional)</label>
+      <input type="text" id="qa-obs" placeholder="Ex: depósito via Pix" class="ap-input">
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-solid" onclick="confirmQuickAction('${tipo}')">Confirmar</button>
+    </div>`;
+}
+
+function qaUpdateSaldo(){
+  const casaId=parseInt(document.getElementById('qa-casa')?.value);
+  const el=document.getElementById('qa-saldo-atual');
+  if(!el||!casaId) return;
+  const s=calculateCasaBalance(casaId);
+  el.textContent=fmt(s);
+  el.style.color=s>=0?'var(--green)':'var(--red)';
+  qaPreviewAjuste();
+}
+
+function qaPreviewAjuste(){
+  const casaId=parseInt(document.getElementById('qa-casa')?.value);
+  const novoSaldo=parseFloat(document.getElementById('qa-valor')?.value)||null;
+  const el=document.getElementById('qa-diff-preview');
+  if(!el||!casaId||novoSaldo===null) return;
+  const atual=calculateCasaBalance(casaId);
+  const diff=parseFloat((novoSaldo-atual).toFixed(2));
+  if(diff===0){ el.textContent='Sem diferença.'; el.style.color='var(--hint)'; return; }
+  el.textContent=(diff>0?'Ajuste: +':' Ajuste: ')+fmt(diff);
+  el.style.color=diff>0?'var(--green)':'var(--red)';
+}
+
+function confirmQuickAction(tipo){
+  const casaId=parseInt(document.getElementById('qa-casa')?.value);
+  const obs=(document.getElementById('qa-obs')?.value||'').trim();
+  const hoje=new Date().toISOString().split('T')[0];
+  if(!casaId){ toast('Selecione uma casa.'); return; }
+  if(tipo==='ajuste'){
+    const novoSaldo=parseFloat(document.getElementById('qa-valor')?.value);
+    if(isNaN(novoSaldo)||novoSaldo<0){ toast('Informe o novo saldo.'); return; }
+    const atual=calculateCasaBalance(casaId);
+    const diff=parseFloat((novoSaldo-atual).toFixed(2));
+    if(diff===0){ toast('Saldo já está correto.'); closeModal(); return; }
+    const c=getCasa(casaId);
+    registrarAjuste('casa:'+casaId, diff, obs||'Correção de saldo'+(c?' em '+c.nome:''));
+    save(); closeModal(); render();
+    toast('✅ Saldo corrigido: '+(diff>0?'+':'')+fmt(diff));
+  } else {
+    const valor=parseFloat(document.getElementById('qa-valor')?.value);
+    if(isNaN(valor)||valor<=0){ toast('Informe um valor válido.'); return; }
+    if(tipo==='deposito'){ registrarDeposito(casaId,valor,hoje,obs); save(); closeModal(); render(); toast('✅ Depósito de '+fmt(valor)+' registrado!'); }
+    else if(tipo==='saque'){ registrarSaque(casaId,valor,hoje,obs); save(); closeModal(); render(); toast('✅ Saque de '+fmt(valor)+' registrado!'); }
+  }
+}
+
+// ── SETTINGS MODAL ──
+function openSettings(){
+  const mc=document.getElementById('mc');
+  const overlay=document.getElementById('overlay');
+  overlay.classList.remove('side-mode','center-mode');
+  mc.classList.remove('modal-side');
+  overlay.classList.add('open');
+  const finOn=isFinanceEnabled();
+  mc.innerHTML=`
+    <h2>⚙️ Configurações</h2>
+    <div style="margin-bottom:20px">
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--hint);margin-bottom:12px">Controle Financeiro</div>
+      <label style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:12px;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-lg)">
+        <div style="position:relative;width:40px;height:22px;flex-shrink:0">
+          <input type="checkbox" id="toggle-finance" ${finOn?'checked':''} onchange="setFinanceEnabled(this.checked)"
+            style="opacity:0;width:0;height:0;position:absolute">
+          <span id="toggle-finance-track" style="position:absolute;inset:0;border-radius:20px;background:${finOn?'var(--green)':'var(--surface3)'};transition:background .2s;cursor:pointer" onclick="document.getElementById('toggle-finance').click()"></span>
+          <span style="position:absolute;top:3px;left:${finOn?'21px':'3px'};width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s;pointer-events:none" id="toggle-finance-knob"></span>
+        </div>
+        <div>
+          <div class="fin-mode-label" style="font-size:13px;font-weight:500">${finOn?'Controle financeiro ativo':'Modo planilha (sem finanças)'}</div>
+          <div class="fin-mode-sub" style="font-size:11px;color:var(--hint);margin-top:2px">${finOn?'Saldo, banco, movimentações e depósitos visíveis':'Apenas apostas, ROI, lucro e estatísticas'}</div>
+        </div>
+      </label>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-solid" onclick="closeModal()">Fechar</button>
+    </div>`;
+  // live toggle knob update (animate without re-render)
+  const tfInput = document.getElementById('toggle-finance');
+  if(tfInput){
+    tfInput.addEventListener('change', function(){
+      const on = this.checked;
+      const track = document.getElementById('toggle-finance-track');
+      const knob  = document.getElementById('toggle-finance-knob');
+      if(track) track.style.background = on ? 'var(--green)' : 'var(--surface3)';
+      if(knob)  knob.style.left        = on ? '21px' : '3px';
+      // update label text safely
+      const labelDiv = this.parentElement?.parentElement?.querySelector('.fin-mode-label');
+      if(labelDiv) labelDiv.textContent = on ? 'Controle financeiro ativo' : 'Modo planilha (sem finanças)';
+      const subDiv = this.parentElement?.parentElement?.querySelector('.fin-mode-sub');
+      if(subDiv)  subDiv.textContent  = on ? 'Saldo, banco, movimentações e depósitos visíveis' : 'Apenas apostas, ROI, lucro e estatísticas';
+    });
   }
 }
 
@@ -4503,7 +4826,7 @@ function saveApostaEdit(id){
 
   const statusAnterior = a.resultado;
   const casaIdAnterior = a.casaId;
-  Object.assign(a,{data,hora,evento,esporte,casaId,odd,qtdUnidades,resultado,fonte});
+  Object.assign(a,{data,hora,evento,esporte,casaId,odd,qtdUnidades,resultado,fonte,stakeMethod:activeStakeTab});
   if(boostPct>0) a.boost=boostPct; else delete a.boost;
 
   // Se o status mudou, registrar movimentações financeiras
@@ -4522,7 +4845,11 @@ function saveApostaEdit(id){
     // Red: stake já foi debitada, nada a fazer
   }
 
-  save(); closeModal(); render(); toast('Aposta atualizada!');
+  apostas.sort((a,b)=>{
+    const dc=b.data.localeCompare(a.data); if(dc!==0) return dc;
+    return (b.hora||'').localeCompare(a.hora||'');
+  });
+  save(); closeModal(); render(); toast('✅ Aposta atualizada!');
 }
 
 function saveAposta(_forceApostar=false){
@@ -4553,7 +4880,7 @@ function saveAposta(_forceApostar=false){
     }
   }
 
-  const entry = {id:nextApostaId++,data,hora,evento,esporte,casaId,odd,qtdUnidades,resultado,fonte};
+  const entry = {id:nextApostaId++,data,hora,evento,esporte,casaId,odd,qtdUnidades,resultado,fonte,stakeMethod:activeStakeTab};
   if(boostPct>0) entry.boost = boostPct;
   apostas.push(entry);
 
@@ -4562,7 +4889,12 @@ function saveAposta(_forceApostar=false){
   const hasMovfin = movfin.some(m => m.source===key || m.destination===key);
   if(hasMovfin) debitarStakeAposta(entry.id, casaId, stakeValor);
 
-  save(); closeModal(); render(); toast('Aposta registrada!');
+  // Sort apostas chronologically (date desc, then hora desc within same day)
+  apostas.sort((a,b)=>{
+    const dc=b.data.localeCompare(a.data); if(dc!==0) return dc;
+    return (b.hora||'').localeCompare(a.hora||'');
+  });
+  save(); closeModal(); render(); toast('✅ Aposta registrada!');
 }
 
 function openModalSaldoInsuficiente(casaId, stakeValor, saldoAtual){
@@ -4635,7 +4967,7 @@ function finalizarApostaPendente(force){
   if(!p){ closeModal(); return; }
   window._pendingAposta = null;
   const entry = {id:nextApostaId++, data:p.data, hora:p.hora||'', evento:p.evento, esporte:p.esporte,
-    casaId:p.casaId, odd:p.odd, qtdUnidades:p.qtdUnidades, resultado:p.resultado, fonte:p.fonte};
+    casaId:p.casaId, odd:p.odd, qtdUnidades:p.qtdUnidades, resultado:p.resultado, fonte:p.fonte, stakeMethod:activeStakeTab};
   if(p.boostPct>0) entry.boost = p.boostPct;
   apostas.push(entry);
   // Debitar stake (mesmo que fique negativo)
@@ -4851,6 +5183,7 @@ function render(){
   if(activeTab==='financeiro')  renderFinanceiro();
   updatePendingBadges();
   updateBancaNameBar();
+  applyFinanceMode();
 }
 
 // expose FB_CONFIG and state to module script
